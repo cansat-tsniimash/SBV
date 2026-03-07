@@ -11,6 +11,8 @@
 #include "bmp280/bme280.h"
 #include "bmp280/bmp280.h"
 #include "lsm/lsm6ds3.h"
+#include "lis2/lis2mdl.h"
+
 
 extern UART_HandleTypeDef huart1;
 extern I2C_HandleTypeDef hi2c1;
@@ -69,6 +71,24 @@ void appMain()
 	volatile float gyro[3] = {0};
 	volatile float acc[3] = {0};
 
+	lis2mdl_data_t lis_data;
+	lis_data.addr = 0x1E << 1;
+	lis_data.hi2c1 = &hi2c1;
+
+	lis2mdl_ctx_t lis2mdl;
+	lis2mdl.handle = &lis_data;
+	lis2mdl.read_reg = lis_read_reg;
+	lis2mdl.write_reg = lis_write_reg;
+
+	lis2mdl_reset_set(&lis2mdl, 1);
+	lis2mdl_operating_mode_set(&lis2mdl, LIS2MDL_CONTINUOUS_MODE);
+	lis2mdl_data_rate_set(&lis2mdl, LIS2MDL_ODR_50Hz);
+	lis2mdl_power_mode_set(&lis2mdl, LIS2MDL_HIGH_RESOLUTION);
+
+	int16_t buf_lis[3] = {0};
+	volatile float lis[3] = {0};
+
+
 	while(1)
 	{
 		bme280_get_sensor_data(BME280_PRESS | BME280_TEMP, &bmp280_data, &bmp280);
@@ -80,6 +100,11 @@ void appMain()
 		{
 			acc[i] = lsm6ds3_from_fs16g_to_mg(buf_lsm_xl[i]) / 1000;
 			gyro[i] = lsm6ds3_from_fs125dps_to_mdps(buf_lsm_gy[i])/ 1000;
+		}
+		lis2mdl_magnetic_raw_get(&lis2mdl, buf_lis);
+		for(int i = 0; i < 3; i++)
+		{
+			lis[i] = lis2mdl_from_lsb_to_mgauss(buf_lis[i]);
 		}
 
 		for(int i = 0; i < 10; i++)

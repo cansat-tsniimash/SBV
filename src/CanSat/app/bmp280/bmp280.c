@@ -9,6 +9,7 @@
 #include "stm32f1xx.h"
 #include "delay/dwt_delay.h"
 #include "bmp280.h"
+#include "i2c-crutch.h"
 
 
 
@@ -23,6 +24,9 @@
 	 hal_res = HAL_I2C_Master_Transmit(ptr->hi2c1, ptr->addr, &reg_addr, 1, 100);
 	 if(hal_res != HAL_OK)
 	 {
+		 I2C_ClearBusyFlagErratum(ptr->hi2c1, 100);
+
+
 		 return hal_res;
 	 }
 	 hal_res = HAL_I2C_Master_Receive(ptr->hi2c1, ptr->addr, reg_data, len, 150);

@@ -12,13 +12,49 @@
 #include "bmp280/bmp280.h"
 #include "lsm/lsm6ds3.h"
 #include "lis2/lis2mdl.h"
+#include "ff.h"
 
 
 extern UART_HandleTypeDef huart1;
 extern I2C_HandleTypeDef hi2c1;
 
+
+
+#pragma pack(push, 1)
+typedef struct
+{
+	uint16_t start;
+	uint16_t team_id;
+	uint32_t time;
+	uint16_t temperature;
+	uint32_t pressure;
+	uint16_t acc[3];
+	uint16_t gyro[3];
+	uint8_t sum;
+
+	uint8_t state;
+	float gps_latitude;
+	float gps_longitude;
+	float gps_height;
+	uint16_t photores[6];
+	uint32_t ampermetr;
+	uint16_t magn[3];
+	uint16_t termometr;
+	uint16_t acc2[3];
+	uint16_t gyro2[3];
+	uint8_t sum2;
+
+
+}packet_t;
+
+#pragma pack(pop)
+
 void appMain()
 {
+	packet_t packet = {0};
+	packet.start = 0xAAAA;
+	packet.team_id = 0xBBBB;
+
 	__HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
 	__HAL_UART_ENABLE_IT(&huart1, UART_IT_ERR);
 	neo6mv2_Init();
@@ -87,6 +123,23 @@ void appMain()
 
 	int16_t buf_lis[3] = {0};
 	volatile float lis[3] = {0};
+
+	FATFS sd;
+	FRESULT sd_result_mount = f_mount (&sd, "", 1);
+	FIL fp;
+	char fp_path[] = "SDPack.bin";
+	FRESULT sd_result = 255;
+	UINT byte_count;
+	if (sd_result_mount == FR_OK)
+	{
+		f_open (&fp, (const TCHAR*)&fp_path, FA_WRITE|FA_OPEN_ALWAYS|FA__WRITTEN);
+	}
+	if (sd_result == FR_OK)
+	{
+		f_write(&fp, &packet, sizeof(packet_t), &byte_count);
+	}
+	f_close(&fp);
+
 
 
 	while(1)

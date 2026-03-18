@@ -32,6 +32,7 @@ typedef struct
 	uint16_t gyro[3];
 	uint8_t sum;
 
+	uint16_t packet_num;
 	uint8_t state;
 	float gps_latitude;
 	float gps_longitude;
@@ -130,15 +131,6 @@ void appMain()
 	char fp_path[] = "SDPack.bin";
 	FRESULT sd_result = 255;
 	UINT byte_count;
-	if (sd_result_mount == FR_OK)
-	{
-		f_open (&fp, (const TCHAR*)&fp_path, FA_WRITE|FA_OPEN_ALWAYS|FA__WRITTEN);
-	}
-	if (sd_result == FR_OK)
-	{
-		f_write(&fp, &packet, sizeof(packet_t), &byte_count);
-	}
-	f_close(&fp);
 
 
 
@@ -178,6 +170,30 @@ void appMain()
 			ds18b20_timer = HAL_GetTick();
 
 		}
+
+		packet.packet_num++;
+		packet.time = HAL_GetTick();
+
+		if (sd_result_mount != FR_OK)
+		{
+			f_mount(NULL, "", 1);
+			sd_result_mount = f_mount(&sd, "", 1);
+		}
+
+		if ((sd_result_mount == FR_OK) && (sd_result != FR_OK))
+		{
+			if (sd_result != 255)
+				f_close(&fp);
+			sd_result = f_open(&fp, (const TCHAR*)&fp_path, FA_WRITE|FA_OPEN_ALWAYS|FA__WRITTEN);
+		}
+
+
+		if ((sd_result_mount == FR_OK)&&(sd_result == FR_OK))
+		{
+			sd_result = f_write(&fp, &packet, sizeof(packet_t), &byte_count);
+			f_sync(&fp);
+		}
+
 	}
 			/*HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);*/
 

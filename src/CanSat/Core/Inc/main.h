@@ -57,12 +57,18 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define BMP280_Pin GPIO_PIN_1
-#define BMP280_GPIO_Port GPIOB
+#define RF_M1_Pin GPIO_PIN_0
+#define RF_M1_GPIO_Port GPIOB
+#define RF_M0_Pin GPIO_PIN_1
+#define RF_M0_GPIO_Port GPIOB
+#define SD_Pin GPIO_PIN_12
+#define SD_GPIO_Port GPIOB
 #define LED_Pin GPIO_PIN_8
 #define LED_GPIO_Port GPIOA
 #define ds18b20_Pin GPIO_PIN_15
 #define ds18b20_GPIO_Port GPIOA
+#define RFAux_Pin GPIO_PIN_3
+#define RFAux_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

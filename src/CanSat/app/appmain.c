@@ -195,7 +195,7 @@ void appMain()
 		}
 
 	}
-			/*HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);*/
+
 
 	return;
 

@@ -66,6 +66,16 @@ void lora_set_reg0(lora_connect_t* lora, air_data_rate_t adr, serial_port_rate_t
 	data = data | (spr << 5);
 }
 
+void lora_set_reg1(lora_connect_t* lora, sum_packet_settings_t sps, rssi_ambient_noise_enable_t rane, transmitting_power_t tp)
+{
+
+	uint8_t data = 0;
+	data = data | (sps << 6);
+	data = data | tp;
+	data = data | (rane << 5);
+}
+
+
 
 
 

@@ -13,9 +13,11 @@
 #include "lsm/lsm6ds3.h"
 #include "lis2/lis2mdl.h"
 #include "ff.h"
+#include "lora/lora.h"
 
 
 extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart2;
 extern I2C_HandleTypeDef hi2c1;
 
 
@@ -122,6 +124,28 @@ void appMain()
 	lis2mdl_data_rate_set(&lis2mdl, LIS2MDL_ODR_50Hz);
 	lis2mdl_power_mode_set(&lis2mdl, LIS2MDL_HIGH_RESOLUTION);
 
+	lora_connect_t lora;
+	lora.uart = &huart2;
+	lora.Aux_Pin = GPIO_PIN_3;
+	lora.Aux_Port = GPIOB;
+	lora.M0_Pin = GPIO_PIN_1;
+	lora.M0_Port = GPIOB;
+	lora.M1_Pin = GPIO_PIN_0;
+	lora.M1_Port = GPIOB;
+
+
+	lora_mode_switch(&lora, LORA_MODE_DC);
+
+	lora_channel_control(&lora, 1);
+	lora_write_addr(&lora, 1);
+	lora_set_reg0(&lora, LORA_AIR_D_R_9P6, LORA_SER_P_R_9600, LORA_SPB_8N1);
+	lora_set_reg1(&lora, LORA_SPS_200B, LORA_RSSI_ANE_DIS, LORA_TP_10DBM);
+
+	lora_mode_switch(&lora, LORA_MODE_TM);
+
+
+
+
 	int16_t buf_lis[3] = {0};
 	volatile float lis[3] = {0};
 
@@ -131,6 +155,8 @@ void appMain()
 	char fp_path[] = "SDPack.bin";
 	FRESULT sd_result = 255;
 	UINT byte_count;
+
+
 
 
 

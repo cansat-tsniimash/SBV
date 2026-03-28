@@ -68,7 +68,7 @@ class Parser:
                 sym = copi[0]
                 for o in copi [1:]:
                     copi = copi ^ o
-                if copi == 0
+                if copi == 0:
                     orig = struct.unpack("<B3IB6H2HhB", packet)
                     hz.append(orig)
                     data = data[50:]

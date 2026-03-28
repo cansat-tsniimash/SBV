@@ -12,5 +12,5 @@ with open("telem.bin", mode="wb") as stream, open("chtoto.csv", mode="w") as g :
         packets = p.parse(data)
         for packet in packets:
             numbers = madgic.convert()
-            g.write(",".join())
+            g.write(",".join("."))
             print(numbers)

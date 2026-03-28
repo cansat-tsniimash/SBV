@@ -46,13 +46,14 @@ class Parser:
 
     def parse(self, data: bytes):
         rv = []
+        hz = []
         data = self.lef + data
 
-        while len(data) >= 27:
+        while len(data) >= 76:
             while len(data) > 2 and (data[0] != 0xaa or data[1] != 0xaa):
                 data = data[1:]
 
-            if len(data) < 27:
+            if len(data) < 76:
                 break
 
             packet = data[2:27]
@@ -63,9 +64,22 @@ class Parser:
                 values = struct.unpack("<HIhI3h3hB", packet)
                 rv.append(values)
                 data = data[27:]
+                copi = data[0:50]
+                sym = copi[0]
+                for o in copi [1:]:
+                    copi = copi ^ o
+                if copi == 0
+                    orig = struct.unpack("<B3IB6H2HhB", packet)
+                    hz.append(orig)
+                    data = data[50:]
+                else:
+                    rv.append(None)
+                    hz.append(None)
+                    data = data[1:]
             else:
                 rv.append(None)
+                hz.append(None)
                 data = data[1:]
 
         self.lef = data
-        return rv
+        return rv, hz

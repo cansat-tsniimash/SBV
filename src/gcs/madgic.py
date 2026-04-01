@@ -76,7 +76,6 @@ class Parser: # подклас библеотеки
                     hz.append(orig) # записваем в масив
                     data = data[50:] # берём другую часть пакета
                 else: # если что то пошло не так
-                    rv.append(None)
                     hz.append(None)
                     data = data[1:]
             else: # если что то пошло не так

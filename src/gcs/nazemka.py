@@ -12,6 +12,6 @@ with open("telem.bin", mode="wb") as stream, open("chtoto.csv", mode="w") as g :
         packets = p.parse(data)
         for packet in packets:
             numbers = madgic.convert()
-            g.write(",".join("."))
+            g.write(";".join(str(x).replace(".", ",") for x in numbers + "\n"))
             # меняем точки на запетые для иксель таблиц
-            print(numbers) # записываем отредоктированые пакеты
+            print("Tim ID", "Время", "Температура", "Давление", "Ускорение по x", "Ускорение по y", "Ускорение по z", "Угловая скорость по x", "Угловая скорость по y", "Угловая скорость по z", "\n", numbers) # записываем отредоктированые пакеты

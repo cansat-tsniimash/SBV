@@ -29,14 +29,6 @@ typedef enum
 	LORA_MODE_DC = 3
 } lora_mode_t;
 
-/*typedef enum
-{
-	LORA_AIR_RATE_2pP4 = 2,
-	LORA_MODE_WOR_SM = 2,
-	LORA_MODE_WOR_RM = 2,
-	LORA_MODE_SN = 3,
-}lora_air_rate_t;*/
-
 typedef enum
 {
 	LORA_AIR_D_R_2P4 = 2,
@@ -91,11 +83,44 @@ typedef enum
 
 }transmitting_power_t;
 
+typedef enum
+{
+	ENBL_RSSI_BYTE_DIS = 0,
+	ENBL_RSSI_BYTE_ENBL = 1
+}enable_RSSI_byte_t;
+
+typedef enum
+{
+	TRANSPARENT_TM = 0,
+	FIXED_TRANSMITION_MOD = 1
+}transmitions_method_t;
+
+typedef enum
+{
+	LBT_DISABLE = 0,
+	LBT_ENABLE = 1
+}lbt_enable_t;
+
+typedef enum
+{
+	WOR_CYCLE_500MS = 0,
+	WOR_CYCLE_1000MS = 1,
+	WOR_CYCLE_1500MS = 2,
+	WOR_CYCLE_2000MS = 3,
+	WOR_CYCLE_2500MS = 4,
+	WOR_CYCLE_3000MS = 5,
+	WOR_CYCLE_3500MS = 6,
+	WOR_CYCLE_4000MS = 7
+}wor_cycle_t;
+
 void lora_channel_control(lora_connect_t* lora, uint8_t chanel);
 void lora_write_addr(lora_connect_t* lora, uint16_t addr);
 void lora_set_reg0(lora_connect_t* lora, air_data_rate_t adr, serial_port_rate_t spr, serial_party_bit_t spb);
 void lora_set_reg1(lora_connect_t* lora, sum_packet_settings_t sps, rssi_ambient_noise_enable_t rane, transmitting_power_t tp);
 void lora_mode_switch(lora_connect_t* lora, lora_mode_t mode);
+
+void lora_send_packet(lora_connect_t* lora, uint8_t *reg_data, uint16_t len);
+
 
 
 #endif /* LORA_H_ */

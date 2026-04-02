@@ -124,6 +124,7 @@ void appMain()
 	lis2mdl_data_rate_set(&lis2mdl, LIS2MDL_ODR_50Hz);
 	lis2mdl_power_mode_set(&lis2mdl, LIS2MDL_HIGH_RESOLUTION);
 
+
 	lora_connect_t lora;
 	lora.uart = &huart2;
 	lora.Aux_Pin = GPIO_PIN_3;
@@ -133,15 +134,19 @@ void appMain()
 	lora.M1_Pin = GPIO_PIN_0;
 	lora.M1_Port = GPIOB;
 
-
 	lora_mode_switch(&lora, LORA_MODE_DC);
+	HAL_Delay(100);
 
-	lora_channel_control(&lora, 1);
-	lora_write_addr(&lora, 1);
+	lora_channel_control(&lora, 3);
+	HAL_Delay(50);
+	lora_write_addr(&lora, 0xFFFF);
+	HAL_Delay(50);
 	lora_set_reg0(&lora, LORA_AIR_D_R_9P6, LORA_SER_P_R_9600, LORA_SPB_8N1);
-	lora_set_reg1(&lora, LORA_SPS_200B, LORA_RSSI_ANE_DIS, LORA_TP_10DBM);
-
+	HAL_Delay(50);
+	lora_set_reg1(&lora, LORA_SPS_200B, LORA_RSSI_ANE_DIS, LORA_TP_22DBM);
+	HAL_Delay(50);
 	lora_mode_switch(&lora, LORA_MODE_TM);
+	HAL_Delay(100);
 
 
 
@@ -220,7 +225,78 @@ void appMain()
 			f_sync(&fp);
 		}
 
+		lora_send_packet(&lora, (uint8_t *)&packet, sizeof(packet_t));
+
 	}
+
+	typedef enum
+	{
+		STATE_PRESTART = 0,	//укладка
+		STATE_PRESTART_WAIT = 1,	//укладка
+		STATE_IN_ROCKET = 1,	//В ракете
+		STATE_SP_OPENING = 2,	//Открытие СП
+		STATE_DROP = 3,	//Спуск
+		STATE_GROUND = 4	//Земля
+	}state_name_t;
+
+	state_name_t state = PRESTART;
+	uint32_t state_timer
+	switch(state)
+	{
+		case STATE_PRESTART:
+			if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4) == GPIO_PIN_SET)
+			{
+				HAL_Delay(15000);
+				state_timer = HAL_GetTick();
+				state = STATE_PRESTART_WAIT;
+			}
+			break;
+
+		case STATE_PRESTART_WAIT:
+			if ()
+			{
+				state = STATE_IN_ROCKET;
+			}
+			break;
+
+		case STATE_IN_ROCKET:
+			//if ()   //добавить условие освещенности
+			{
+				HAL_Delay(5000);
+				state = SP_OPENING;
+			}
+			break;
+
+		case STATE_SP_OPENING:
+			{
+				HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
+				HAL_Delay(1000);
+				HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);	//Включение пережигателя
+				state = DROP;
+			}
+			break;
+
+		case STATE_DROP:
+					/*Определение положения Солнца и
+					 наведение панелей. Если высота по барометру не изменяется
+					 - переход в состояние "Земля"*/
+			//основная часть с наведением
+			break;
+
+		case STATE_GROUND:
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
+			break;
+
+	}
+
+
+
+
+
+
+
+
+
 
 
 	return;

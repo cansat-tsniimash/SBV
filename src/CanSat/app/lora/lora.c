@@ -48,7 +48,7 @@ void lora_write_reg(lora_connect_t* lora, uint8_t addr, uint8_t *data, uint8_t s
 
 void lora_channel_control(lora_connect_t* lora, uint8_t chanel)
 {
-	lora_write_reg(lora, 0x00, &chanel, 1);
+	lora_write_reg(lora, 0x04, &chanel, 1);
 
 }
 
@@ -64,6 +64,7 @@ void lora_set_reg0(lora_connect_t* lora, air_data_rate_t adr, serial_port_rate_t
 	data = data | adr;
 	data = data | (spb << 3);
 	data = data | (spr << 5);
+	lora_write_reg(lora, 0x02, &data , 1);
 }
 
 void lora_set_reg1(lora_connect_t* lora, sum_packet_settings_t sps, rssi_ambient_noise_enable_t rane, transmitting_power_t tp)
@@ -73,6 +74,28 @@ void lora_set_reg1(lora_connect_t* lora, sum_packet_settings_t sps, rssi_ambient
 	data = data | (sps << 6);
 	data = data | tp;
 	data = data | (rane << 5);
+	lora_write_reg(lora, 0x03, &data , 1);
+}
+
+void lora_set_reg3(lora_connect_t* lora, enable_RSSI_byte_t nrb, transmitions_method_t trm, lbt_enable_t lbte, wor_cycle_t wct)
+{
+	uint8_t data = 0;
+	data = data | wct;
+	data = data | (lbte << 4);
+	data = data | (trm << 6);
+	data = data | (nrb << 7);
+	lora_write_reg(lora, 0x05, &data , 1);
+}
+
+void lora_send_packet(lora_connect_t* lora, uint8_t *reg_data, uint16_t len)
+{
+	uint16_t try = 0;
+	HAL_UART_Transmit(lora->uart, reg_data, len, 100);
+	while((HAL_GPIO_ReadPin(lora->Aux_Port, lora->Aux_Pin) == GPIO_PIN_RESET) && (try < 20))
+	{
+		try++;
+		HAL_Delay(1);
+	}
 }
 
 

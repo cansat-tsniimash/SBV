@@ -52,6 +52,20 @@ typedef struct
 
 #pragma pack(pop)
 
+uint8_t checksum(const void * data_, size_t size)
+{
+	if (0 == size)
+		return 0;
+
+	const uint8_t * data = (const uint8_t*)data_;
+	uint8_t chk = *(data + 0);
+	for (size_t i = 1; i < size; i++)
+		chk = chk ^ data[i];
+
+	return chk;
+}
+
+
 void appMain()
 {
 	packet_t packet = {0};
@@ -225,11 +239,41 @@ void appMain()
 			f_sync(&fp);
 		}
 
+		packet.time = 1;
+		packet.temperature = 2;
+		packet.pressure = 3;
+		packet.acc[0] = 4;
+		packet.acc[1] = 5;
+		packet.acc[2] = 6;
+		packet.gyro[0] = 7;
+		packet.gyro[1] = 8;
+		packet.gyro[2] = 9;
+
+		packet.packet_num = 10;
+		packet.state = 11;
+		packet.gps_latitude = 12;
+		packet.gps_longitude = 13;
+		packet.gps_height = 14;
+		packet.photores[0] = 15;
+		packet.photores[1] = 16;
+		packet.photores[2] = 17;
+		packet.photores[3] = 18;
+		packet.photores[4] = 19;
+		packet.photores[5] = 20;
+
+		packet.ampermetr = 21;
+		packet.termometr = 0;
+
+		packet.sum = checksum(&packet, offsetof(packet_t, sum));
+		packet.sum2 = checksum(
+				((uint8_t*)&packet) + offsetof(packet_t, sum) + sizeof(packet.sum),
+				sizeof(packet) - offsetof(packet_t, sum) - sizeof(packet.sum) - sizeof(packet.sum2)
+		);
 		lora_send_packet(&lora, (uint8_t *)&packet, sizeof(packet_t));
 
 	}
 
-	typedef enum
+	/*typedef enum
 	{
 		STATE_PRESTART = 0,	//укладка
 		STATE_PRESTART_WAIT = 1,	//укладка
@@ -280,14 +324,14 @@ void appMain()
 					/*Определение положения Солнца и
 					 наведение панелей. Если высота по барометру не изменяется
 					 - переход в состояние "Земля"*/
-			//основная часть с наведением
-			break;
+			//основная часть с наведением*/
+			/*break;
 
 		case STATE_GROUND:
 			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
 			break;
 
-	}
+	}*/
 
 
 

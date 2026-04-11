@@ -123,8 +123,8 @@ void appMain()
 
 	int16_t buf_lsm_gy[3] = {0};
 	int16_t buf_lsm_xl[3] = {0};
-	volatile float gyro[3] = {0};
-	volatile float acc[3] = {0};
+	volatile float gyro[3] = {0}; // TODO: Убрать
+	volatile float acc[3] = {0}; // TODO: Убрать
 
 	lis2mdl_data_t lis_data;
 	lis_data.addr = 0x1E << 1;
@@ -168,7 +168,7 @@ void appMain()
 
 
 	int16_t buf_lis[3] = {0};
-	volatile float lis[3] = {0};
+	volatile float lis[3] = {0}; // TODO: Убрать
 
 	FATFS sd;
 	FRESULT sd_result_mount = f_mount (&sd, "", 1);
@@ -249,6 +249,8 @@ void appMain()
 			f_sync(&fp);
 		}
 
+		 // TODO: Алгоритм лучше сюда
+
 		packet.packet_num++;
 		packet.time = HAL_GetTick();
 		packet.sum = checksum(&packet, offsetof(packet_t, sum));
@@ -256,11 +258,14 @@ void appMain()
 				((uint8_t*)&packet) + offsetof(packet_t, sum) + sizeof(packet.sum),
 				sizeof(packet) - offsetof(packet_t, sum) - sizeof(packet.sum) - sizeof(packet.sum2)
 		);
+
 		lora_send_packet(&lora, (uint8_t *)&packet, sizeof(packet_t));
+
+		 // TODO: Сд перенести сюда после создания пакетов
 
 	}
 
-
+	 // TODO: Отсюда код надо убрать
 	float photores_data;
 	typedef enum
 	{

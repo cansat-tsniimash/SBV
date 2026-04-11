@@ -17,14 +17,14 @@ typedef struct
 
 typedef enum
 {
-	AVG_1 = 0,
-	AVG_4 = 1,
-	AVG_16 = 2,
-	AVG_64 = 3,
-	AVG_128 = 4,
-	AVG_256 = 5,
-	AVG_512 = 6,
-	AVG_1024 = 7
+	INA_AVG_1 = 0,
+	INA_AVG_4 = 1,
+	INA_AVG_16 = 2,
+	INA_AVG_64 = 3,
+	INA_AVG_128 = 4,
+	INA_AVG_256 = 5,
+	INA_AVG_512 = 6,
+	INA_AVG_1024 = 7
 
 }ina226_avg_t;
 

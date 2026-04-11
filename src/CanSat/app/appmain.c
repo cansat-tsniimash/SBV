@@ -14,6 +14,7 @@
 #include "lis2/lis2mdl.h"
 #include "ff.h"
 #include "lora/lora.h"
+#include "photores/photores.h"
 
 
 extern UART_HandleTypeDef huart1;
@@ -39,6 +40,7 @@ typedef struct
 	float gps_latitude;
 	float gps_longitude;
 	float gps_height;
+	uint8_t gps_fix;
 	uint16_t photores[6];
 	uint32_t ampermetr;
 	uint16_t magn[3];
@@ -182,19 +184,22 @@ void appMain()
 	while(1)
 	{
 		bme280_get_sensor_data(BME280_PRESS | BME280_TEMP, &bmp280_data, &bmp280);
+		packet.pressure = bmp280_data.pressure;
+		packet.temperature = bmp280_data.temperature * 100;
 
 		lsm6ds3_acceleration_raw_get(&lsm6ds3, buf_lsm_xl);
 		lsm6ds3_angular_rate_raw_get(&lsm6ds3, buf_lsm_gy);
 
 		for(int i = 0; i < 3; i++)
 		{
-			acc[i] = lsm6ds3_from_fs16g_to_mg(buf_lsm_xl[i]) / 1000;
-			gyro[i] = lsm6ds3_from_fs125dps_to_mdps(buf_lsm_gy[i])/ 1000;
+			packet.acc[i] = buf_lsm_xl[i];
+			packet.gyro[i] =buf_lsm_gy[i];
+
 		}
 		lis2mdl_magnetic_raw_get(&lis2mdl, buf_lis);
 		for(int i = 0; i < 3; i++)
 		{
-			lis[i] = lis2mdl_from_lsb_to_mgauss(buf_lis[i]);
+			packet.magn[i] = buf_lis[i];
 		}
 
 		for(int i = 0; i < 10; i++)
@@ -204,20 +209,25 @@ void appMain()
 		}
 
 		volatile GPS_Data getData = neo6mv2_GetData();
-		printf("cookie = %d\n", getData.cookie);
-		printf("fix = %d\n", getData.fixQuality);
-		printf("%d %d %f %f\n", getData.cookie, getData.fixQuality, getData.latitude, getData.longitude);
+		//printf("cookie = %d\n", getData.cookie);
+		//printf("fix = %d\n", getData.fixQuality);
+		//printf("%d %d %f %f\n", getData.cookie, getData.fixQuality, getData.latitude, getData.longitude);
+
+		packet.gps_fix = getData.fixQuality;
+		packet.gps_latitude = getData.latitude;
+		packet.gps_longitude = getData.longitude;
+		packet.gps_height = getData.altitude;
 
 		if((HAL_GetTick() - ds18b20_timer) > 750 )
 		{
 			volatile float res = ds18b20_read_temp();
+
 			ds18b20_conv();
 			ds18b20_timer = HAL_GetTick();
-
+			packet.termometr = res * 10;
 		}
 
-		packet.packet_num++;
-		packet.time = HAL_GetTick();
+
 
 		if (sd_result_mount != FR_OK)
 		{
@@ -239,31 +249,8 @@ void appMain()
 			f_sync(&fp);
 		}
 
-		packet.time = 1;
-		packet.temperature = 2;
-		packet.pressure = 3;
-		packet.acc[0] = 4;
-		packet.acc[1] = 5;
-		packet.acc[2] = 6;
-		packet.gyro[0] = 7;
-		packet.gyro[1] = 8;
-		packet.gyro[2] = 9;
-
-		packet.packet_num = 10;
-		packet.state = 11;
-		packet.gps_latitude = 12;
-		packet.gps_longitude = 13;
-		packet.gps_height = 14;
-		packet.photores[0] = 15;
-		packet.photores[1] = 16;
-		packet.photores[2] = 17;
-		packet.photores[3] = 18;
-		packet.photores[4] = 19;
-		packet.photores[5] = 20;
-
-		packet.ampermetr = 21;
-		packet.termometr = 0;
-
+		packet.packet_num++;
+		packet.time = HAL_GetTick();
 		packet.sum = checksum(&packet, offsetof(packet_t, sum));
 		packet.sum2 = checksum(
 				((uint8_t*)&packet) + offsetof(packet_t, sum) + sizeof(packet.sum),
@@ -273,7 +260,9 @@ void appMain()
 
 	}
 
-	/*typedef enum
+
+	float photores_data;
+	typedef enum
 	{
 		STATE_PRESTART = 0,	//укладка
 		STATE_PRESTART_WAIT = 1,	//укладка
@@ -283,13 +272,14 @@ void appMain()
 		STATE_GROUND = 4	//Земля
 	}state_name_t;
 
-	state_name_t state = PRESTART;
+	/*state_name_t state = STATE_PRESTART;
 	uint32_t state_timer
 	switch(state)
 	{
 		case STATE_PRESTART:
 			if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4) == GPIO_PIN_SET)
 			{
+				photores_data = photores_read_data;
 				HAL_Delay(15000);
 				state_timer = HAL_GetTick();
 				state = STATE_PRESTART_WAIT;
@@ -321,11 +311,9 @@ void appMain()
 			break;
 
 		case STATE_DROP:
-					/*Определение положения Солнца и
-					 наведение панелей. Если высота по барометру не изменяется
-					 - переход в состояние "Земля"*/
-			//основная часть с наведением*/
-			/*break;
+
+			//основная часть с наведением
+			break;
 
 		case STATE_GROUND:
 			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);

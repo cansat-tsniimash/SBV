@@ -17,6 +17,7 @@
 #include "photores/photores.h"
 #include "INA226/INA226.h"
 #include "serva/serva.h"
+#include "float.h"
 
 
 extern UART_HandleTypeDef huart1;
@@ -56,6 +57,53 @@ typedef struct
 }packet_t;
 
 #pragma pack(pop)
+
+
+float sun(float *photores_data)
+{
+	float angle[6] = {0, 36, 72, 108, 144, 180};
+
+	float max = FLT_MIN;
+	size_t max_no = 0;
+	for(size_t i = 0; i < 6; i++)
+	{
+		if(photores_data[i] > max)
+		{
+			max = photores_data[i];
+			max_no = i;
+
+		}
+	}
+
+	float serva_angle;
+	if (max_no == 0)
+	{
+		serva_angle = (angle[0] * photores_data[0]) + (angle[1] * photores_data[1]);
+		serva_angle = serva_angle / (photores_data[0] + photores_data[1]);
+	}
+	else if (max_no == 5)
+	{
+		serva_angle = (angle[5] * photores_data[5]) + (angle[4] * photores_data[4]);
+		serva_angle = serva_angle / (photores_data[4] + photores_data[5]);
+	}
+	else
+	{
+		const size_t max_no_0 = max_no - 1;
+		const size_t max_no_2 = max_no + 1;
+
+		serva_angle =
+				  angle[max_no_0] * photores_data[max_no_0]
+				+ angle[max_no]   * photores_data[max_no]
+				+ angle[max_no_2] * photores_data[max_no_2]
+		;
+
+		serva_angle = serva_angle /
+				(photores_data[max_no_0] + photores_data[max_no] + photores_data[max_no_2]);
+	}
+
+	return serva_angle;
+}
+
 
 uint8_t checksum(const void * data_, size_t size)
 {
@@ -102,6 +150,10 @@ void fill_packet_with_stupid_data(packet_t * packet)
 
 void appMain()
 {
+
+	serva_rotate_ch2(90);
+
+
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
 
 	packet_t packet = {0};
@@ -248,6 +300,10 @@ void appMain()
 
 	while(1)
 	{
+
+
+
+
 		/*addr_count = 0;
 		for (int i = 0; i < 0b1111111; i++)
 		{
@@ -358,9 +414,9 @@ void appMain()
 		}
 		// TODO: Сд перенести сюда после создания пакетов
 
-		float photores_data[8];
+		float photores_data[6];
 
-		for(int i = 0; i < 8; i++)
+		for(int i = 0; i < 6; i++)
 		{
 			uint8_t photores_num = 0;
 			photores_num++;
@@ -369,6 +425,9 @@ void appMain()
 		}
 
 
+		float xsun = sun(photores_data);
+
+		serva_rotate_ch2(xsun);
 
 
 	}

@@ -21,7 +21,7 @@ void serva_rotate_ch2(double value_)
 	}
 	const uint16_t serva_min = 300;
 	const uint16_t serva_max = 2800;
-	int value = (serva_max - serva_min) * value_ / 0xFF + serva_min;
+	int value = (serva_max - serva_min) * value_ / 180 + serva_min;
 
 	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, value);
 }

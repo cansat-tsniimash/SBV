@@ -15,11 +15,14 @@
 #include "ff.h"
 #include "lora/lora.h"
 #include "photores/photores.h"
+#include "INA226/INA226.h"
+#include "serva/serva.h"
 
 
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
 extern I2C_HandleTypeDef hi2c1;
+extern TIM_HandleTypeDef htim2;
 
 
 
@@ -42,7 +45,7 @@ typedef struct
 	float gps_height;
 	uint8_t gps_fix;
 	uint16_t photores[6];
-	uint32_t ampermetr;
+	uint32_t shunt;
 	uint16_t magn[3];
 	uint16_t termometr;
 	uint16_t acc2[3];
@@ -67,9 +70,40 @@ uint8_t checksum(const void * data_, size_t size)
 	return chk;
 }
 
+void fill_packet_with_stupid_data(packet_t * packet)
+{
+	packet->packet_num = 0;
+	packet->state = 1;
+	packet->gps_latitude = 2;
+	packet->gps_longitude = 3;
+	packet->gps_height = 4;
+	packet->gps_fix = 5;
+	packet->photores[0] = 6;
+	packet->photores[1] = 7;
+	packet->photores[2] = 8;
+	packet->photores[3] = 9;
+	packet->photores[4] = 10;
+	packet->photores[5] = 11;
+	packet->shunt = 12;
+	packet->magn[0] = 13;
+	packet->magn[1] = 14;
+	packet->magn[2] = 15;
+	packet->termometr = 16;
+	packet->acc2[0] = 17;
+	packet->acc2[1] = 18;
+	packet->acc2[2] = 19;
+	packet->gyro2[0] = 20;
+	packet->gyro2[1] = 21;
+	packet->gyro2[2] = 22;
+	packet->sum2 = 23;
+
+}
+
 
 void appMain()
 {
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
+
 	packet_t packet = {0};
 	packet.start = 0xAAAA;
 	packet.team_id = 0xBBBB;
@@ -123,8 +157,6 @@ void appMain()
 
 	int16_t buf_lsm_gy[3] = {0};
 	int16_t buf_lsm_xl[3] = {0};
-	volatile float gyro[3] = {0}; // TODO: Убрать
-	volatile float acc[3] = {0}; // TODO: Убрать
 
 	lis2mdl_data_t lis_data;
 	lis_data.addr = 0x1E << 1;
@@ -165,10 +197,35 @@ void appMain()
 	HAL_Delay(100);
 
 
+	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
+
+	/*int value = 0;
+
+	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 500);
+	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 2500);*/
+	/*while (1)
+	{
+		serva_rotate_ch2(0);
+		serva_rotate_ch4(180);
+		HAL_Delay(1000);
+		serva_rotate_ch2(90);
+		serva_rotate_ch4(90);
+		HAL_Delay(1000);
+		serva_rotate_ch2(180);
+		serva_rotate_ch4(0);
+		HAL_Delay(1000);
+		serva_rotate_ch2(90);
+		serva_rotate_ch4(90);
+		HAL_Delay(1000);
+	}*/
+
+
+
+
 
 
 	int16_t buf_lis[3] = {0};
-	volatile float lis[3] = {0}; // TODO: Убрать
 
 	FATFS sd;
 	FRESULT sd_result_mount = f_mount (&sd, "", 1);
@@ -177,12 +234,48 @@ void appMain()
 	FRESULT sd_result = 255;
 	UINT byte_count;
 
+	ina226_bus_t ina;
+	ina.addr = 0x40 << 1;
+	ina.hi2c2 = &hi2c1;
+	uint16_t data = 0;
+	uint8_t addr_count = 0;
+	uint8_t addr[10] = {0};
+
+	ina226_set_configuration_reg(&ina, INA_AVG_256, VBUSCT_1p1MS, VSHCT_1p1MS, OP_MODE_SHUNTnBUS);
 
 
 
 
 	while(1)
 	{
+		/*addr_count = 0;
+		for (int i = 0; i < 0b1111111; i++)
+		{
+			if (HAL_I2C_Master_Transmit(&hi2c1, i << 1, (uint8_t *)&data, 1, 100) == HAL_OK)
+			{
+				if (addr_count >= 10)
+					break;
+				addr[addr_count] = i;
+				addr_count++;
+
+			}
+		}*/
+
+		//ina226_read_reg(0x03, &data, &ina);
+		int16_t shunt_count = ina226_get_shunt_voltage_reg(&ina);
+		int16_t bus_count = ina226_get_bus_voltage_reg(&ina);
+		double shuntV = shunt_count * 2.5e-6;
+		double shuntCurrent = (shuntV / 0.1) * 1e6;
+		//230,1
+		//480
+		//750
+
+		//280
+		//540
+		//810
+		double shuntCurrent2 = 0.003872 * shuntCurrent + 0.10972;
+		packet.shunt = shuntCurrent2;
+
 		bme280_get_sensor_data(BME280_PRESS | BME280_TEMP, &bmp280_data, &bmp280);
 		packet.pressure = bmp280_data.pressure;
 		packet.temperature = bmp280_data.temperature * 100;
@@ -229,6 +322,21 @@ void appMain()
 
 
 
+
+
+		 // TODO: Алгоритм лучше сюда
+
+		packet.packet_num++;
+		packet.time = HAL_GetTick();
+		//fill_packet_with_stupid_data(&packet);
+		packet.sum = checksum(&packet, offsetof(packet_t, sum));
+		const size_t our_part_size = sizeof(packet) - offsetof(packet_t, packet_num);
+		const uint8_t * our_part_front = (uint8_t*)&packet.packet_num;
+		packet.sum2 = checksum(our_part_front, our_part_size - sizeof(packet.sum2));
+
+		lora_send_packet(&lora, (uint8_t *)&packet, sizeof(packet_t));
+
+
 		if (sd_result_mount != FR_OK)
 		{
 			f_mount(NULL, "", 1);
@@ -248,26 +356,26 @@ void appMain()
 			sd_result = f_write(&fp, &packet, sizeof(packet_t), &byte_count);
 			f_sync(&fp);
 		}
+		// TODO: Сд перенести сюда после создания пакетов
 
-		 // TODO: Алгоритм лучше сюда
+		float photores_data[8];
 
-		packet.packet_num++;
-		packet.time = HAL_GetTick();
-		packet.sum = checksum(&packet, offsetof(packet_t, sum));
-		packet.sum2 = checksum(
-				((uint8_t*)&packet) + offsetof(packet_t, sum) + sizeof(packet.sum),
-				sizeof(packet) - offsetof(packet_t, sum) - sizeof(packet.sum) - sizeof(packet.sum2)
-		);
+		for(int i = 0; i < 8; i++)
+		{
+			uint8_t photores_num = 0;
+			photores_num++;
+			photores_data[i] = photores_read_data(i);
+			//packet.photores[i] = (photores_read_data(i) * 1000);
+		}
 
-		lora_send_packet(&lora, (uint8_t *)&packet, sizeof(packet_t));
 
-		 // TODO: Сд перенести сюда после создания пакетов
+
 
 	}
 
 	 // TODO: Отсюда код надо убрать
-	float photores_data;
-	typedef enum
+
+	typedef enum state_name
 	{
 		STATE_PRESTART = 0,	//укладка
 		STATE_PRESTART_WAIT = 1,	//укладка

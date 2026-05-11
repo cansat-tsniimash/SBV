@@ -8,16 +8,47 @@
 #include "stm32f1xx.h"
 extern ADC_HandleTypeDef hadc1;
 
-float photores_read_data(void)
+float photores_read_data(uint8_t photores_num)
 {
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, RESET);
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, RESET);
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_15, RESET);
-	HAL_ADC_Init(&hadc1);
+	switch(photores_num)
+	{
+	case 0/*0*/:
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_15, GPIO_PIN_RESET);
+		break;
+	case 1/*7*/:
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_15, GPIO_PIN_SET);
+		break;
+	case 2/*1*/:
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_15, GPIO_PIN_SET);
+		break;
+	case 3/*2*/:
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_15, GPIO_PIN_RESET);
+		break;
+	case 4/*3*/:
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_15, GPIO_PIN_SET);
+		break;
+	case 5/*6*/:
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_15, GPIO_PIN_RESET);
+		break;
+	}
+	HAL_ADC_Start(&hadc1);
 	HAL_ADC_PollForConversion(&hadc1, 100);
 	uint32_t data = HAL_ADC_GetValue(&hadc1);
 	HAL_ADC_Stop(&hadc1);
-
-	return (3.3 / 4095) * data;
+	return (data / 4095.0) * (3.3);
 }
+
+
 

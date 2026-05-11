@@ -1,0 +1,431 @@
+2026-04-18 17:12:47,430 [INFO] Activator:176 - 
+
+
+2026-04-18 17:12:47,430 [INFO] Activator:177 - !SESSION log4j initialized
+2026-04-18 17:12:49,936 [INFO] LogOutputStream:77 - [STDOUT_REDIRECT] 
+2026-04-18 17:12:57,845 [INFO] ApplicationProperties:184 - Using Application install path: D:\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.13.0.202411220809
+2026-04-18 17:12:57,862 [INFO] DbMcusXml:78 - Set database path to: D:\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.13.0.202411220809\\db\/mcu/
+2026-04-18 17:12:57,862 [INFO] ApiDb:274 - Set plugin database path to: D:\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.13.0.202411220809\\db\/plugins/boardmanager/
+2026-04-18 17:12:57,870 [WARN] ApiDb:259 - Overriding images path with different value:  => D:\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.13.0.202411220809\\db\/plugins/mcufinder/images/
+2026-04-18 17:12:59,854 [WARN] ApiFinderProperties:113 - C:\Users\1\.stmcufinder\plugins\mcufinder\mcu\mcuFinder.mfd doesn't exist
+2026-04-18 17:12:59,855 [INFO] ApiDb:250 - Set database path to: C:\Users\1\.stmcufinder\plugins\mcufinder//mcu/
+2026-04-18 17:12:59,857 [INFO] DbMcusAds:125 - Set database path to: C:\Users\1\.stmcufinder\plugins\mcufinder//mcu/
+2026-04-18 17:12:59,859 [INFO] CrossReferenceDbSqlite:203 - Set database path to: C:\Users\1\.stmcufinder\plugins\mcufinder//mcu/cs/
+2026-04-18 17:12:59,986 [INFO] RulesReader:64 - Compatibility file has been processed (297 Rules)
+2026-04-18 17:13:00,087 [INFO] DbMcusXml:78 - Set database path to: D:\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.13.0.202411220809\\db\/mcu/
+2026-04-18 17:13:00,087 [INFO] ApiDb:274 - Set plugin database path to: D:\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.13.0.202411220809\\db\/plugins/boardmanager/
+2026-04-18 17:13:00,087 [INFO] ApiDb:261 - Set plugin images path to: D:\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.13.0.202411220809\\db\/plugins/mcufinder/images/
+2026-04-18 17:13:00,087 [WARN] DbFile:41 - Overriding database path with different value: C:\Users\1\.stmcufinder\plugins\mcufinder/ => C:\Users\1\.stmcufinder\plugins\mcufinder
+2026-04-18 17:13:00,088 [INFO] ApiDb:250 - Set database path to: C:\Users\1\.stmcufinder\plugins\mcufinder//mcu/
+2026-04-18 17:13:00,088 [WARN] DbFile:41 - Overriding database path with different value: C:\Users\1\.stmcufinder\plugins\mcufinder/ => C:\Users\1\.stmcufinder\plugins\mcufinder
+2026-04-18 17:13:00,088 [INFO] DbMcusAds:125 - Set database path to: C:\Users\1\.stmcufinder\plugins\mcufinder//mcu/
+2026-04-18 17:13:00,088 [WARN] DbFile:41 - Overriding database path with different value: C:\Users\1\.stmcufinder\plugins\mcufinder/ => C:\Users\1\.stmcufinder\plugins\mcufinder
+2026-04-18 17:13:00,088 [WARN] DbFile:41 - Overriding database path with different value: C:\Users\1\.stmcufinder\plugins\mcufinder/ => C:\Users\1\.stmcufinder\plugins\mcufinder
+2026-04-18 17:13:00,089 [INFO] CrossReferenceDbSqlite:203 - Set database path to: C:\Users\1\.stmcufinder\plugins\mcufinder//mcu/cs/
+2026-04-18 17:13:00,163 [INFO] MainPanel:272 - HeapMemory: 268435456
+2026-04-18 17:13:00,266 [INFO] DbMcusXml:78 - Set database path to: D:\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.13.0.202411220809\\db\/mcu/
+2026-04-18 17:13:00,267 [INFO] ApiDb:274 - Set plugin database path to: D:\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.13.0.202411220809\\db\/plugins/boardmanager/
+2026-04-18 17:13:00,267 [INFO] ApiDb:261 - Set plugin images path to: D:\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.13.0.202411220809\\db\/plugins/mcufinder/images/
+2026-04-18 17:13:00,267 [WARN] DbFile:41 - Overriding database path with different value: C:\Users\1\.stmcufinder\plugins\mcufinder/ => C:\Users\1\.stmcufinder\plugins\mcufinder
+2026-04-18 17:13:00,267 [INFO] ApiDb:250 - Set database path to: C:\Users\1\.stmcufinder\plugins\mcufinder//mcu/
+2026-04-18 17:13:00,267 [WARN] DbFile:41 - Overriding database path with different value: C:\Users\1\.stmcufinder\plugins\mcufinder/ => C:\Users\1\.stmcufinder\plugins\mcufinder
+2026-04-18 17:13:00,267 [INFO] DbMcusAds:125 - Set database path to: C:\Users\1\.stmcufinder\plugins\mcufinder//mcu/
+2026-04-18 17:13:00,268 [WARN] DbFile:41 - Overriding database path with different value: C:\Users\1\.stmcufinder\plugins\mcufinder/ => C:\Users\1\.stmcufinder\plugins\mcufinder
+2026-04-18 17:13:00,268 [WARN] DbFile:41 - Overriding database path with different value: C:\Users\1\.stmcufinder\plugins\mcufinder/ => C:\Users\1\.stmcufinder\plugins\mcufinder
+2026-04-18 17:13:00,268 [INFO] CrossReferenceDbSqlite:203 - Set database path to: C:\Users\1\.stmcufinder\plugins\mcufinder//mcu/cs/
+2026-04-18 17:13:00,290 [INFO] ApplicationProperties:184 - Using Application install path: D:\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.13.0.202411220809
+2026-04-18 17:13:00,293 [INFO] PluginManage:196 - Search for loadable plugins [exclusion list=, ]
+2026-04-18 17:13:00,294 [INFO] PluginManage:310 - Check plugin analytics
+2026-04-18 17:13:06,115 [INFO] AnalyticsPlugin:253 - Accepted Software Licenses: 
+2026-04-18 17:13:06,115 [INFO] AnalyticsPlugin:255 - Accepted CMSIS Pack Licenses: 
+2026-04-18 17:13:06,115 [INFO] AnalyticsPlugin:257 - Accepted Firmware Licenses: 
+2026-04-18 17:13:06,115 [INFO] PluginManage:359 - Loaded plugin analytics (category:tool,tabindex:-1)
+2026-04-18 17:13:06,115 [INFO] PluginManage:310 - Check plugin cadmodel
+2026-04-18 17:13:06,121 [INFO] CADModel:105 - Init CAD model plugin
+2026-04-18 17:13:06,121 [INFO] PluginManage:359 - Loaded plugin cadmodel (category:power,tabindex:5)
+2026-04-18 17:13:06,121 [INFO] PluginManage:310 - Check plugin clock
+2026-04-18 17:13:06,123 [INFO] PluginManage:359 - Loaded plugin clock (category:base,tabindex:2)
+2026-04-18 17:13:06,123 [INFO] PluginManage:310 - Check plugin ddr
+2026-04-18 17:13:06,123 [INFO] PluginManage:359 - Loaded plugin ddr (category:tool,tabindex:6)
+2026-04-18 17:13:06,123 [INFO] PluginManage:310 - Check plugin filemanager
+2026-04-18 17:13:06,305 [INFO] PluginManage:359 - Loaded plugin filemanager (category:base,tabindex:10)
+2026-04-18 17:13:06,309 [INFO] PluginManage:310 - Check plugin ipmanager
+2026-04-18 17:13:06,314 [INFO] PluginManage:359 - Loaded plugin ipmanager (category:base,tabindex:5)
+2026-04-18 17:13:06,315 [INFO] PluginManage:310 - Check plugin lpbam
+2026-04-18 17:13:06,319 [INFO] PluginManage:359 - Loaded plugin lpbam (category:base,tabindex:0)
+2026-04-18 17:13:06,319 [INFO] PluginManage:310 - Check plugin memorymap
+2026-04-18 17:13:06,326 [INFO] PluginManage:359 - Loaded plugin memorymap (category:base,tabindex:4)
+2026-04-18 17:13:06,326 [INFO] PluginManage:310 - Check plugin pinoutandconfiguration
+2026-04-18 17:13:06,326 [INFO] PluginManage:359 - Loaded plugin pinoutandconfiguration (category:base,tabindex:1)
+2026-04-18 17:13:06,326 [INFO] PluginManage:310 - Check plugin pinoutconfig
+2026-04-18 17:13:06,386 [WARN] SupportedApi:132 - Cannot load RTOS API schema: s4s-elt-must-match.1: The content of 'definitions' must match (annotation?, (simpleType | complexType)?, (unique | key | keyref)*)). A problem was found starting at: attribute.
+2026-04-18 17:13:06,468 [INFO] PluginManage:359 - Loaded plugin pinoutconfig (category:base,tabindex:0)
+2026-04-18 17:13:06,468 [INFO] PluginManage:310 - Check plugin power
+2026-04-18 17:13:06,468 [INFO] PluginManage:359 - Loaded plugin power (category:power,tabindex:4)
+2026-04-18 17:13:06,468 [INFO] PluginManage:310 - Check plugin projectmanager
+2026-04-18 17:13:06,485 [INFO] PluginManage:359 - Loaded plugin projectmanager (category:projectmanager,tabindex:4)
+2026-04-18 17:13:06,485 [INFO] PluginManage:310 - Check plugin rif
+2026-04-18 17:13:06,489 [INFO] PluginManage:359 - Loaded plugin rif (category:base,tabindex:3)
+2026-04-18 17:13:06,489 [INFO] PluginManage:310 - Check plugin thirdparty
+2026-04-18 17:13:06,574 [WARN] IntegrityCheckThread:84 - waiting for thirdparty lock release [integrity check]
+2026-04-18 17:13:06,574 [INFO] IntegrityCheckThread:86 - entering critical section [integrity check]
+2026-04-18 17:13:06,574 [INFO] PluginManage:359 - Loaded plugin thirdparty (category:base,tabindex:-1)
+2026-04-18 17:13:06,574 [INFO] ThirdPartyUpdaterWithRetryManager:70 - Updater plugin not ready yet. [1/15]
+2026-04-18 17:13:06,574 [INFO] PluginManage:310 - Check plugin tools
+2026-04-18 17:13:06,574 [INFO] PluginManage:359 - Loaded plugin tools (category:base,tabindex:7)
+2026-04-18 17:13:06,574 [INFO] PluginManage:310 - Check plugin tutovideos
+2026-04-18 17:13:06,714 [INFO] PluginManage:359 - Loaded plugin tutovideos (category:base,tabindex:-1)
+2026-04-18 17:13:06,714 [INFO] PluginManage:310 - Check plugin updater
+2026-04-18 17:13:06,737 [INFO] PluginManage:359 - Loaded plugin updater (category:base,tabindex:12)
+2026-04-18 17:13:06,737 [INFO] PluginManage:310 - Check plugin userauth
+2026-04-18 17:13:06,737 [INFO] UserAuth:118 - Init User Auth plugin
+2026-04-18 17:13:06,737 [INFO] PluginManage:359 - Loaded plugin userauth (category:base,tabindex:14)
+2026-04-18 17:13:06,737 [INFO] PluginManage:283 - PluginManage : Loaded plugins [18]
+2026-04-18 17:13:06,882 [INFO] PinOutPanel:1589 - setPackage(No Configuration,No Configuration)
+2026-04-18 17:13:06,939 [INFO] CADModel:165 - CPN selected for project level
+2026-04-18 17:13:06,939 [INFO] CADModel:114 - Register for checkConnection events
+2026-04-18 17:13:06,948 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,948 [INFO] PluginManager:220 - loadIPPluginJar : add adc
+2026-04-18 17:13:06,956 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,956 [INFO] PluginManager:220 - loadIPPluginJar : add aes
+2026-04-18 17:13:06,956 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,956 [INFO] PluginManager:220 - loadIPPluginJar : add can
+2026-04-18 17:13:06,956 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,956 [INFO] PluginManager:220 - loadIPPluginJar : add comp
+2026-04-18 17:13:06,956 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,956 [INFO] PluginManager:220 - loadIPPluginJar : add cryp
+2026-04-18 17:13:06,956 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,956 [INFO] PluginManager:220 - loadIPPluginJar : add ddr_ctrl_phy
+2026-04-18 17:13:06,964 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,964 [INFO] PluginManager:220 - loadIPPluginJar : add dfsdm
+2026-04-18 17:13:06,964 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,964 [INFO] PluginManager:220 - loadIPPluginJar : add dma
+2026-04-18 17:13:06,964 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,964 [INFO] PluginManager:220 - loadIPPluginJar : add dma3
+2026-04-18 17:13:06,972 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,972 [INFO] PluginManager:220 - loadIPPluginJar : add extmemmanager
+2026-04-18 17:13:06,972 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,972 [INFO] PluginManager:220 - loadIPPluginJar : add fatfs
+2026-04-18 17:13:06,972 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,972 [INFO] PluginManager:220 - loadIPPluginJar : add fmc
+2026-04-18 17:13:06,980 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,980 [INFO] PluginManager:220 - loadIPPluginJar : add freertos
+2026-04-18 17:13:06,980 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,980 [INFO] PluginManager:220 - loadIPPluginJar : add genericplugin
+2026-04-18 17:13:06,980 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,980 [INFO] PluginManager:220 - loadIPPluginJar : add gfxmmu
+2026-04-18 17:13:06,980 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,980 [INFO] PluginManager:220 - loadIPPluginJar : add gic
+2026-04-18 17:13:06,988 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,988 [INFO] PluginManager:220 - loadIPPluginJar : add gpio
+2026-04-18 17:13:06,989 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,989 [INFO] PluginManager:220 - loadIPPluginJar : add gtzc
+2026-04-18 17:13:06,989 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,989 [INFO] PluginManager:220 - loadIPPluginJar : add hash
+2026-04-18 17:13:06,989 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,989 [INFO] PluginManager:220 - loadIPPluginJar : add i2c
+2026-04-18 17:13:06,989 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,989 [INFO] PluginManager:220 - loadIPPluginJar : add i2s
+2026-04-18 17:13:06,995 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,995 [INFO] PluginManager:220 - loadIPPluginJar : add i3c
+2026-04-18 17:13:06,997 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,997 [INFO] PluginManager:220 - loadIPPluginJar : add ipddr
+2026-04-18 17:13:06,997 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:06,997 [INFO] PluginManager:220 - loadIPPluginJar : add linkedlist
+2026-04-18 17:13:07,005 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,005 [INFO] PluginManager:220 - loadIPPluginJar : add lorawan
+2026-04-18 17:13:07,005 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,005 [INFO] PluginManager:220 - loadIPPluginJar : add ltdc
+2026-04-18 17:13:07,005 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,005 [INFO] PluginManager:220 - loadIPPluginJar : add mdma
+2026-04-18 17:13:07,005 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,005 [INFO] PluginManager:220 - loadIPPluginJar : add nvic
+2026-04-18 17:13:07,013 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,013 [INFO] PluginManager:220 - loadIPPluginJar : add opamp
+2026-04-18 17:13:07,013 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,013 [INFO] PluginManager:220 - loadIPPluginJar : add openamp
+2026-04-18 17:13:07,017 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,017 [INFO] PluginManager:220 - loadIPPluginJar : add pdm2pcm
+2026-04-18 17:13:07,017 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,021 [INFO] PluginManager:220 - loadIPPluginJar : add plateformsettings
+2026-04-18 17:13:07,021 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,021 [INFO] PluginManager:220 - loadIPPluginJar : add quadspi
+2026-04-18 17:13:07,021 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,021 [INFO] PluginManager:220 - loadIPPluginJar : add radio
+2026-04-18 17:13:07,021 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,021 [INFO] PluginManager:220 - loadIPPluginJar : add resmgrutility
+2026-04-18 17:13:07,021 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,021 [INFO] PluginManager:220 - loadIPPluginJar : add sai
+2026-04-18 17:13:07,029 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,029 [INFO] PluginManager:220 - loadIPPluginJar : add spi
+2026-04-18 17:13:07,029 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,029 [INFO] PluginManager:220 - loadIPPluginJar : add stm32_wpan
+2026-04-18 17:13:07,029 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,029 [INFO] PluginManager:220 - loadIPPluginJar : add tim
+2026-04-18 17:13:07,029 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,029 [INFO] PluginManager:220 - loadIPPluginJar : add touchsensing
+2026-04-18 17:13:07,029 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,029 [INFO] PluginManager:220 - loadIPPluginJar : add tracer_emb
+2026-04-18 17:13:07,037 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,037 [INFO] PluginManager:220 - loadIPPluginJar : add ts
+2026-04-18 17:13:07,037 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,037 [INFO] PluginManager:220 - loadIPPluginJar : add tsc
+2026-04-18 17:13:07,037 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,037 [INFO] PluginManager:220 - loadIPPluginJar : add ucpd
+2026-04-18 17:13:07,037 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,037 [INFO] PluginManager:220 - loadIPPluginJar : add usart
+2026-04-18 17:13:07,037 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2026-04-18 17:13:07,037 [INFO] PluginManager:220 - loadIPPluginJar : add usbx
+2026-04-18 17:13:07,086 [ERROR] ConfigurationRetriever:142 - IOException on connection: Read timed out
+2026-04-18 17:13:07,153 [FATAL] Updater:351 - Updater called before beeing initialized
+2026-04-18 17:13:07,189 [INFO] RulesReader:64 - Compatibility file has been processed (297 Rules)
+2026-04-18 17:13:07,202 [INFO] RulesReader:64 - Compatibility file has been processed (297 Rules)
+2026-04-18 17:13:07,219 [INFO] CADModel:165 - CPN selected for project level
+2026-04-18 17:13:07,219 [INFO] CADModel:114 - Register for checkConnection events
+2026-04-18 17:13:07,219 [FATAL] Updater:351 - Updater called before beeing initialized
+2026-04-18 17:13:07,219 [ERROR] CADModel:125 - Updater not yet initialized, retry later 
+2026-04-18 17:13:07,333 [FATAL] Updater:351 - Updater called before beeing initialized
+2026-04-18 17:13:07,336 [INFO] CADModel:165 - CPN selected for project level
+2026-04-18 17:13:07,336 [INFO] CADModel:114 - Register for checkConnection events
+2026-04-18 17:13:07,336 [FATAL] Updater:351 - Updater called before beeing initialized
+2026-04-18 17:13:07,336 [ERROR] CADModel:125 - Updater not yet initialized, retry later 
+2026-04-18 17:13:07,336 [FATAL] Updater:351 - Updater called before beeing initialized
+2026-04-18 17:13:07,434 [FATAL] Updater:351 - Updater called before beeing initialized
+2026-04-18 17:13:07,434 [INFO] DbMcusAds:53 - JSON generation date=Thu Sep 30 09:55:09 MSK 2021 (1632984909247)
+2026-04-18 17:13:07,434 [FATAL] Updater:351 - Updater called before beeing initialized
+2026-04-18 17:13:07,458 [WARN] DetailPanel:346 - Failed to get advertising image, set to default
+2026-04-18 17:13:07,609 [FATAL] Updater:351 - Updater called before beeing initialized
+2026-04-18 17:13:07,609 [FATAL] Updater:351 - Updater called before beeing initialized
+2026-04-18 17:13:07,609 [FATAL] Updater:351 - Updater called before beeing initialized
+2026-04-18 17:13:07,609 [WARN] DetailPanel:346 - Failed to get advertising image, set to default
+2026-04-18 17:13:07,609 [FATAL] Updater:351 - Updater called before beeing initialized
+2026-04-18 17:13:07,644 [ERROR] Updater:1198 - MainUpdater not yet initialized. External WinMGr cannot be set.
+2026-04-18 17:13:07,644 [INFO] Updater:1134 - Updater Version found : 6.13.0
+2026-04-18 17:13:07,659 [INFO] ApplicationProperties:184 - Using Application install path: D:\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.13.0.202411220809
+2026-04-18 17:13:09,240 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] Apr 18, 2026 5:13:09 PM java.util.prefs.WindowsPreferences <init>
+2026-04-18 17:13:09,246 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] WARNING: Could not open/create prefs root node Software\JavaSoft\Prefs at root 0xffffffff80000002. Windows RegCreateKeyEx(...) returned error code 5.
+2026-04-18 17:13:09,246 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:09,265 [INFO] MainUpdater:525 - Copy updater definitions from MX database
+2026-04-18 17:13:09,305 [INFO] MainUpdater:558 - Copy flag file definitions from MX database
+2026-04-18 17:13:09,305 [INFO] MainUpdater:574 - Copy thirdparty index definitions from MX database
+2026-04-18 17:13:09,305 [INFO] MainUpdater:593 - Copy default thirdparty db definitions from MX database
+2026-04-18 17:13:09,578 [INFO] ThirdPartyUpdaterWithRetryManager:70 - Updater plugin not ready yet. [2/15]
+2026-04-18 17:13:10,783 [INFO] MainUpdater:2872 - connection check result : 10
+2026-04-18 17:13:10,790 [INFO] MainUpdater:3566 - Updater definition file requires update
+2026-04-18 17:13:10,790 [INFO] MainUpdater:289 - Updater Check For Update Now.
+2026-04-18 17:13:10,790 [INFO] MicroXplorer:498 - Change Database Version : DB.6.0.130
+2026-04-18 17:13:10,797 [INFO] McuFinderGlobals:63 - Set McuFinder mode to 2 (CubeIDE integrated)
+2026-04-18 17:13:10,797 [INFO] UserAuth:171 - activating auth plugin
+2026-04-18 17:13:10,801 [INFO] UserAuth:486 - Internet connection configuration mode: 1
+2026-04-18 17:13:10,805 [INFO] JxBrowserEngine:152 - Initiate JxBrowser Engine with user profile folder
+2026-04-18 17:13:12,131 [INFO] ServerAccessManage:473 - Download File updaters.zip
+2026-04-18 17:13:12,187 [ERROR] ConfigurationRetriever:142 - IOException on connection: Read timed out
+2026-04-18 17:13:12,582 [WARN] MainUpdater:1193 - Updater busy. Cannot search thirdparties
+2026-04-18 17:13:12,582 [INFO] ThirdPartyUpdaterWithRetryManager:96 - Updater plugin is busy. [1/15]
+2026-04-18 17:13:12,807 [INFO] FileExtend:240 - Unzip File : updaters.zip
+2026-04-18 17:13:12,807 [INFO] FileExtend:255 - Standard Zip Deflate
+2026-04-18 17:13:13,414 [INFO] ServerAccessManage:473 - Download File PacksControlFlags.xml
+2026-04-18 17:13:13,692 [INFO] ServerAccessManage:473 - Download File cubemx.pidx
+2026-04-18 17:13:14,075 [INFO] WebApp:168 - Instantiating new browser for Auth
+2026-04-18 17:13:14,126 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.FP-ATR-ASTRA1.pdsc
+2026-04-18 17:13:14,238 [ERROR] ConfigurationRetriever:142 - IOException on connection: Read timed out
+2026-04-18 17:13:14,606 [INFO] WebApp:449 - Apply proxy settings
+2026-04-18 17:13:14,608 [INFO] WebApp:534 - Chromium requires no authentication
+2026-04-18 17:13:14,614 [INFO] WebApp:477 - Direct internet connection detected
+2026-04-18 17:13:14,634 [INFO] WebApp:880 - Register for checkConnection events
+2026-04-18 17:13:14,634 [INFO] WebApp:449 - Apply proxy settings
+2026-04-18 17:13:14,634 [INFO] WebApp:534 - Chromium requires no authentication
+2026-04-18 17:13:14,634 [INFO] WebApp:477 - Direct internet connection detected
+2026-04-18 17:13:14,739 [INFO] WebApp:221 - Starting web application
+2026-04-18 17:13:14,739 [INFO] WebApp:579 - Web application path used D:\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.13.0.202411220809\db\plugins\mcufinder\reactClient1\index.html
+2026-04-18 17:13:14,931 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:14,932 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:15,228 [INFO] WebApp:187 - Connection restablished
+2026-04-18 17:13:15,591 [WARN] MainUpdater:1193 - Updater busy. Cannot search thirdparties
+2026-04-18 17:13:15,591 [INFO] ThirdPartyUpdaterWithRetryManager:96 - Updater plugin is busy. [2/15]
+2026-04-18 17:13:15,617 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.FP-ATR-SIGFOX1.pdsc
+2026-04-18 17:13:15,863 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:15,863 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:16,243 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.FP-SNS-STBOX1.pdsc
+2026-04-18 17:13:16,855 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:16,856 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:17,183 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.FP-SNS-FLIGHT1.pdsc
+2026-04-18 17:13:17,863 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:17,863 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:18,398 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.FP-SNS-MOTENV1.pdsc
+2026-04-18 17:13:18,593 [WARN] MainUpdater:1193 - Updater busy. Cannot search thirdparties
+2026-04-18 17:13:18,593 [INFO] ThirdPartyUpdaterWithRetryManager:96 - Updater plugin is busy. [3/15]
+2026-04-18 17:13:18,858 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:18,858 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:19,896 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:19,896 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:20,423 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.FP-SNS-MOTENVWB1.pdsc
+2026-04-18 17:13:20,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:20,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:21,595 [WARN] MainUpdater:1193 - Updater busy. Cannot search thirdparties
+2026-04-18 17:13:21,595 [INFO] ThirdPartyUpdaterWithRetryManager:96 - Updater plugin is busy. [4/15]
+2026-04-18 17:13:21,862 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:21,862 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:22,150 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.FP-SNS-SMARTAG2.pdsc
+2026-04-18 17:13:22,641 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.FP-SNS-STAIOTCFT.pdsc
+2026-04-18 17:13:22,862 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:22,862 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:23,239 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.X-CUBE-AI.pdsc
+2026-04-18 17:13:23,858 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:23,859 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:24,596 [WARN] MainUpdater:1193 - Updater busy. Cannot search thirdparties
+2026-04-18 17:13:24,596 [INFO] ThirdPartyUpdaterWithRetryManager:96 - Updater plugin is busy. [5/15]
+2026-04-18 17:13:24,859 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:24,860 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:25,862 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:25,862 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:26,863 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:26,863 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:27,597 [WARN] MainUpdater:1193 - Updater busy. Cannot search thirdparties
+2026-04-18 17:13:27,597 [INFO] ThirdPartyUpdaterWithRetryManager:96 - Updater plugin is busy. [6/15]
+2026-04-18 17:13:27,856 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.X-CUBE-ALS.pdsc
+2026-04-18 17:13:27,860 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:27,860 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:28,750 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.X-CUBE-BLE1.pdsc
+2026-04-18 17:13:28,859 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:28,859 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:29,860 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:29,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:30,599 [WARN] MainUpdater:1193 - Updater busy. Cannot search thirdparties
+2026-04-18 17:13:30,610 [INFO] ThirdPartyUpdaterWithRetryManager:96 - Updater plugin is busy. [7/15]
+2026-04-18 17:13:30,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:30,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:31,857 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:31,857 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:32,198 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:32,457 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.X-CUBE-BLE2.pdsc
+2026-04-18 17:13:32,860 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:32,860 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:33,613 [WARN] MainUpdater:1193 - Updater busy. Cannot search thirdparties
+2026-04-18 17:13:33,613 [INFO] ThirdPartyUpdaterWithRetryManager:96 - Updater plugin is busy. [8/15]
+2026-04-18 17:13:33,879 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:33,879 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:34,620 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.X-CUBE-BLEMGR.pdsc
+2026-04-18 17:13:34,864 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:34,864 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:35,585 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:35,857 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:35,857 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:36,614 [WARN] MainUpdater:1193 - Updater busy. Cannot search thirdparties
+2026-04-18 17:13:36,614 [INFO] ThirdPartyUpdaterWithRetryManager:96 - Updater plugin is busy. [9/15]
+2026-04-18 17:13:36,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:36,862 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:37,561 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.X-CUBE-DISPLAY.pdsc
+2026-04-18 17:13:37,862 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:37,863 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:38,857 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:38,857 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:39,526 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.X-CUBE-DPOWER.pdsc
+2026-04-18 17:13:39,615 [WARN] MainUpdater:1193 - Updater busy. Cannot search thirdparties
+2026-04-18 17:13:39,615 [INFO] ThirdPartyUpdaterWithRetryManager:96 - Updater plugin is busy. [10/15]
+2026-04-18 17:13:39,881 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:39,881 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:40,417 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:40,765 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:40,859 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:40,859 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:41,240 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:41,610 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:41,863 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:41,863 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:41,953 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:42,296 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:42,583 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:42,616 [WARN] MainUpdater:1193 - Updater busy. Cannot search thirdparties
+2026-04-18 17:13:42,616 [INFO] ThirdPartyUpdaterWithRetryManager:96 - Updater plugin is busy. [11/15]
+2026-04-18 17:13:42,858 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:42,859 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:42,952 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:43,314 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:43,693 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:43,858 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:43,858 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:44,145 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:44,420 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.X-CUBE-EEPRMA1.pdsc
+2026-04-18 17:13:44,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:44,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:45,299 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:45,617 [WARN] MainUpdater:1193 - Updater busy. Cannot search thirdparties
+2026-04-18 17:13:45,617 [INFO] ThirdPartyUpdaterWithRetryManager:96 - Updater plugin is busy. [12/15]
+2026-04-18 17:13:45,863 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:45,863 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:46,208 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:46,859 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:46,860 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:47,323 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.X-CUBE-FREERTOS.pdsc
+2026-04-18 17:13:47,857 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:47,858 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:48,620 [WARN] MainUpdater:1193 - Updater busy. Cannot search thirdparties
+2026-04-18 17:13:48,620 [INFO] ThirdPartyUpdaterWithRetryManager:96 - Updater plugin is busy. [13/15]
+2026-04-18 17:13:48,864 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:48,864 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:49,860 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:49,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:50,857 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:50,857 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:51,295 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.X-CUBE-GNSS1.pdsc
+2026-04-18 17:13:51,621 [WARN] MainUpdater:1193 - Updater busy. Cannot search thirdparties
+2026-04-18 17:13:51,621 [INFO] ThirdPartyUpdaterWithRetryManager:96 - Updater plugin is busy. [14/15]
+2026-04-18 17:13:51,857 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:51,857 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:52,859 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:52,860 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:53,858 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:53,858 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:54,622 [WARN] MainUpdater:1193 - Updater busy. Cannot search thirdparties
+2026-04-18 17:13:54,622 [INFO] ThirdPartyUpdaterWithRetryManager:96 - Updater plugin is busy. [15/15]
+2026-04-18 17:13:54,623 [ERROR] IntegrityCheckThread:130 - Cannot retrieve database content from updater: error -1
+2026-04-18 17:13:54,623 [INFO] ThirdParty:978 - Integrity check success = false
+2026-04-18 17:13:54,623 [INFO] IntegrityCheckThread:100 - exiting critical section [integrity check]
+2026-04-18 17:13:54,623 [INFO] IntegrityCheckThread:103 - End integrity checks thread
+2026-04-18 17:13:54,868 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:54,868 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:55,550 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:55,860 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:55,860 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:55,888 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:56,254 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:56,599 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:56,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:56,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:56,956 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:57,256 [ERROR] ServerAccessManage:1089 - Problem, file not found on Server
+2026-04-18 17:13:57,507 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.X-CUBE-ISPU.pdsc
+2026-04-18 17:13:57,859 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:57,859 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:58,853 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:58,853 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:13:59,023 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.X-CUBE-IPS.pdsc
+2026-04-18 17:13:59,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:13:59,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:14:00,694 [INFO] ServerAccessManage:473 - Download File STMicroelectronics.X-CUBE-MEMS1.pdsc
+2026-04-18 17:14:00,857 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:14:00,857 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:14:01,857 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:14:01,865 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:14:02,853 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:14:02,853 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:14:03,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:14:03,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:14:04,858 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:14:04,858 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:14:05,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:14:05,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:14:06,869 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:14:06,869 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:14:07,875 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:14:07,875 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:14:08,825 [ERROR] ConfigurationRetriever:142 - IOException on connection: Read timed out
+2026-04-18 17:14:08,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:14:08,861 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:14:09,864 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:14:09,864 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:14:10,871 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:14:10,871 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-04-18 17:14:11,869 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-04-18 17:14:11,869 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 

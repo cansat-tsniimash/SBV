@@ -51,6 +51,7 @@ typedef struct
 	uint16_t termometr;
 	uint16_t acc2[3];
 	uint16_t gyro2[3];
+	float sun_angle;
 	uint8_t sum2;
 
 
@@ -322,13 +323,6 @@ void appMain()
 		int16_t bus_count = ina226_get_bus_voltage_reg(&ina);
 		double shuntV = shunt_count * 2.5e-6;
 		double shuntCurrent = (shuntV / 0.1) * 1e6;
-		//230,1
-		//480
-		//750
-
-		//280
-		//540
-		//810
 		double shuntCurrent2 = 0.003872 * shuntCurrent + 0.10972;
 		packet.shunt = shuntCurrent2;
 
@@ -358,9 +352,6 @@ void appMain()
 		}
 
 		volatile GPS_Data getData = neo6mv2_GetData();
-		//printf("cookie = %d\n", getData.cookie);
-		//printf("fix = %d\n", getData.fixQuality);
-		//printf("%d %d %f %f\n", getData.cookie, getData.fixQuality, getData.latitude, getData.longitude);
 
 		packet.gps_fix = getData.fixQuality;
 		packet.gps_latitude = getData.latitude;
@@ -421,13 +412,13 @@ void appMain()
 			uint8_t photores_num = 0;
 			photores_num++;
 			photores_data[i] = photores_read_data(i);
-			//packet.photores[i] = (photores_read_data(i) * 1000);
+			packet.photores[i] = photores_read_data(i);
 		}
 
 
-		float xsun = sun(photores_data);
-
-		serva_rotate_ch2(xsun);
+		float sun_angle = sun(photores_data);
+		packet.sun_angle = sun_angle;
+		serva_rotate_ch2(sun_angle);
 
 
 	}
@@ -437,48 +428,73 @@ void appMain()
 	typedef enum state_name
 	{
 		STATE_PRESTART = 0,	//укладка
-		STATE_PRESTART_WAIT = 1,	//укладка
-		STATE_IN_ROCKET = 1,	//В ракете
-		STATE_SP_OPENING = 2,	//Открытие СП
-		STATE_DROP = 3,	//Спуск
-		STATE_GROUND = 4	//Земля
+		STATE_PRESTART_WAIT = 1,	//таймер укладки
+		STATE_IN_ROCKET = 2,	//В ракете
+		STATE_IN_ROCKET_WAIT = 3,	//таймер ракеты
+		STATE_SP_OPENING = 4,	//Открытие СП
+		STATE_SP_OPENING_WAIT = 5,	//таймер СП
+		STATE_DROP = 6,	//Спуск
+		STATE_DROP_WAIT = 7,	//таймер спуска
+		STATE_GROUND = 8	//Земля
 	}state_name_t;
 
-	/*state_name_t state = STATE_PRESTART;
-	uint32_t state_timer
+	state_name_t state = STATE_PRESTART;
+	uint32_t state_timer;
+	float illumination_data_prestart;
+	float illumination_data_in_rocket;
 	switch(state)
 	{
 		case STATE_PRESTART:
 			if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4) == GPIO_PIN_SET)
 			{
-				photores_data = photores_read_data;
-				HAL_Delay(15000);
+				//HAL_Delay(15000);
+				illumination_data_prestart = photores_read_data(3);
 				state_timer = HAL_GetTick();
 				state = STATE_PRESTART_WAIT;
 			}
 			break;
 
 		case STATE_PRESTART_WAIT:
-			if ()
+			if (HAL_GetTick() > (state_timer + 15000))
 			{
+				illumination_data_in_rocket = photores_read_data(3);
 				state = STATE_IN_ROCKET;
 			}
 			break;
 
 		case STATE_IN_ROCKET:
-			//if ()   //добавить условие освещенности
+			if (photores_read_data(3) > (((illumination_data_prestart - illumination_data_in_rocket) / 2)
+					+ illumination_data_in_rocket))   //добавить условие освещенности
 			{
-				HAL_Delay(5000);
-				state = SP_OPENING;
+				//HAL_Delay(5000);
+				state_timer = HAL_GetTick();
+				state = STATE_IN_ROCKET_WAIT;
+			}
+			break;
+
+		case STATE_IN_ROCKET_WAIT:
+			if (HAL_GetTick() > (state_timer + 5000))
+			{
+				state = STATE_SP_OPENING;
 			}
 			break;
 
 		case STATE_SP_OPENING:
 			{
-				HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
-				HAL_Delay(1000);
-				HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);	//Включение пережигателя
-				state = DROP;
+				HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);	//Включение пережигателя
+				//HAL_Delay(1000);
+				state_timer = HAL_GetTick();
+				state = STATE_SP_OPENING_WAIT;
+			}
+			break;
+
+		case STATE_SP_OPENING_WAIT:
+			{
+				if(HAL_GetTick() > (state_timer + 1000))
+				{
+					HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
+					state = STATE_DROP;
+				}
 			}
 			break;
 
@@ -486,12 +502,16 @@ void appMain()
 
 			//основная часть с наведением
 			break;
+		case STATE_DROP_WAIT:
+
+
+			break;
 
 		case STATE_GROUND:
 			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
 			break;
 
-	}*/
+	}
 
 
 

@@ -18,6 +18,7 @@
 #include "INA226/INA226.h"
 #include "serva/serva.h"
 #include "float.h"
+#include <math.h>
 
 
 extern UART_HandleTypeDef huart1;
@@ -58,6 +59,8 @@ typedef struct
 }packet_t;
 
 #pragma pack(pop)
+
+
 
 
 float sun(float *photores_data)
@@ -290,37 +293,32 @@ void appMain()
 	ina226_bus_t ina;
 	ina.addr = 0x40 << 1;
 	ina.hi2c2 = &hi2c1;
-	uint16_t data = 0;
-	uint8_t addr_count = 0;
-	uint8_t addr[10] = {0};
 
 	ina226_set_configuration_reg(&ina, INA_AVG_256, VBUSCT_1p1MS, VSHCT_1p1MS, OP_MODE_SHUNTnBUS);
 
 
+	typedef enum state_name
+	{
+		STATE_PRESTART = 0,	//укладка
+		STATE_PRESTART_WAIT = 1,	//таймер укладки
+		STATE_IN_ROCKET = 2,	//В ракете
+		STATE_IN_ROCKET_WAIT = 3,	//таймер ракеты
+		STATE_SP_OPENING = 4,	//Открытие СП	//таймер СП
+		STATE_DROP = 5,	//Спуск
+		STATE_DROP_WAIT = 6,	//таймер спуска
+		STATE_GROUND = 7	//Земля
+	}state_name_t;
+
+	state_name_t state = STATE_PRESTART;
+	uint32_t state_timer;
+	float illumination_data_prestart;
+	float illumination_data_in_rocket;
+	float photores_data[6];
 
 
 	while(1)
 	{
-
-
-
-
-		/*addr_count = 0;
-		for (int i = 0; i < 0b1111111; i++)
-		{
-			if (HAL_I2C_Master_Transmit(&hi2c1, i << 1, (uint8_t *)&data, 1, 100) == HAL_OK)
-			{
-				if (addr_count >= 10)
-					break;
-				addr[addr_count] = i;
-				addr_count++;
-
-			}
-		}*/
-
-		//ina226_read_reg(0x03, &data, &ina);
 		int16_t shunt_count = ina226_get_shunt_voltage_reg(&ina);
-		int16_t bus_count = ina226_get_bus_voltage_reg(&ina);
 		double shuntV = shunt_count * 2.5e-6;
 		double shuntCurrent = (shuntV / 0.1) * 1e6;
 		double shuntCurrent2 = 0.003872 * shuntCurrent + 0.10972;
@@ -367,11 +365,79 @@ void appMain()
 			packet.termometr = res * 10;
 		}
 
+		switch(state)
+		{
+			case STATE_PRESTART:
+				if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4) == GPIO_PIN_SET)
+				{
+					//HAL_Delay(15000);
+					illumination_data_prestart = photores_read_data(3);
+					state_timer = HAL_GetTick();
+					state = STATE_PRESTART_WAIT;
+				}
+				break;
+
+			case STATE_PRESTART_WAIT:
+				if (HAL_GetTick() > (state_timer + 15000))
+				{
+					illumination_data_in_rocket = photores_read_data(3);
+					state = STATE_IN_ROCKET;
+				}
+				break;
+
+			case STATE_IN_ROCKET:
+				if (photores_read_data(3) > (((illumination_data_prestart - illumination_data_in_rocket) / 2)
+						+ illumination_data_in_rocket))
+				{
+					//HAL_Delay(5000);
+					state_timer = HAL_GetTick();
+					state = STATE_IN_ROCKET_WAIT;
+				}
+				break;
+
+			case STATE_IN_ROCKET_WAIT:
+				if (HAL_GetTick() > (state_timer + 5000))
+				{
+					HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);	//Включение пережигателя
+					state_timer = HAL_GetTick();
+					state = STATE_SP_OPENING;
+				}
+				break;
+
+			case STATE_SP_OPENING:
+				if(HAL_GetTick() > (state_timer + 1000))
+				{
+					HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
+					state = STATE_DROP;
+				}
+				break;
+
+			case STATE_DROP:
+				for(int i = 0; i < 6; i++)
+				{
+					uint8_t photores_num = 0;
+					photores_num++;
+					photores_data[i] = photores_read_data(i);
+					packet.photores[i] = photores_read_data(i);
+				}
 
 
+				float sun_angle = sun(photores_data);
+				packet.sun_angle = sun_angle;
+				serva_rotate_ch2(sun_angle);
+				//основная часть с наведением
+				break;
+			case STATE_DROP_WAIT:
 
 
-		 // TODO: Алгоритм лучше сюда
+				break;
+
+			case STATE_GROUND:
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
+
+				break;
+
+		}
 
 		packet.packet_num++;
 		packet.time = HAL_GetTick();
@@ -405,123 +471,12 @@ void appMain()
 		}
 		// TODO: Сд перенести сюда после создания пакетов
 
-		float photores_data[6];
-
-		for(int i = 0; i < 6; i++)
-		{
-			uint8_t photores_num = 0;
-			photores_num++;
-			photores_data[i] = photores_read_data(i);
-			packet.photores[i] = photores_read_data(i);
-		}
 
 
-		float sun_angle = sun(photores_data);
-		packet.sun_angle = sun_angle;
-		serva_rotate_ch2(sun_angle);
+
 
 
 	}
-
-	 // TODO: Отсюда код надо убрать
-
-	typedef enum state_name
-	{
-		STATE_PRESTART = 0,	//укладка
-		STATE_PRESTART_WAIT = 1,	//таймер укладки
-		STATE_IN_ROCKET = 2,	//В ракете
-		STATE_IN_ROCKET_WAIT = 3,	//таймер ракеты
-		STATE_SP_OPENING = 4,	//Открытие СП
-		STATE_SP_OPENING_WAIT = 5,	//таймер СП
-		STATE_DROP = 6,	//Спуск
-		STATE_DROP_WAIT = 7,	//таймер спуска
-		STATE_GROUND = 8	//Земля
-	}state_name_t;
-
-	state_name_t state = STATE_PRESTART;
-	uint32_t state_timer;
-	float illumination_data_prestart;
-	float illumination_data_in_rocket;
-	switch(state)
-	{
-		case STATE_PRESTART:
-			if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4) == GPIO_PIN_SET)
-			{
-				//HAL_Delay(15000);
-				illumination_data_prestart = photores_read_data(3);
-				state_timer = HAL_GetTick();
-				state = STATE_PRESTART_WAIT;
-			}
-			break;
-
-		case STATE_PRESTART_WAIT:
-			if (HAL_GetTick() > (state_timer + 15000))
-			{
-				illumination_data_in_rocket = photores_read_data(3);
-				state = STATE_IN_ROCKET;
-			}
-			break;
-
-		case STATE_IN_ROCKET:
-			if (photores_read_data(3) > (((illumination_data_prestart - illumination_data_in_rocket) / 2)
-					+ illumination_data_in_rocket))   //добавить условие освещенности
-			{
-				//HAL_Delay(5000);
-				state_timer = HAL_GetTick();
-				state = STATE_IN_ROCKET_WAIT;
-			}
-			break;
-
-		case STATE_IN_ROCKET_WAIT:
-			if (HAL_GetTick() > (state_timer + 5000))
-			{
-				state = STATE_SP_OPENING;
-			}
-			break;
-
-		case STATE_SP_OPENING:
-			{
-				HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);	//Включение пережигателя
-				//HAL_Delay(1000);
-				state_timer = HAL_GetTick();
-				state = STATE_SP_OPENING_WAIT;
-			}
-			break;
-
-		case STATE_SP_OPENING_WAIT:
-			{
-				if(HAL_GetTick() > (state_timer + 1000))
-				{
-					HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
-					state = STATE_DROP;
-				}
-			}
-			break;
-
-		case STATE_DROP:
-
-			//основная часть с наведением
-			break;
-		case STATE_DROP_WAIT:
-
-
-			break;
-
-		case STATE_GROUND:
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
-			break;
-
-	}
-
-
-
-
-
-
-
-
-
-
 
 	return;
 

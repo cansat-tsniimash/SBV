@@ -20,6 +20,8 @@
 #include "float.h"
 #include <math.h>
 
+#define ARRAY_SIZE(array) (sizeof(array) / sizeof((array)[0]))
+
 
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
@@ -65,7 +67,7 @@ typedef struct
 
 float sun(float *photores_data)
 {
-	float angle[6] = {0, 36, 72, 108, 144, 180};
+	const float angle[6] = {0, 36, 72, 108, 144, 180};
 
 	float max = FLT_MIN;
 	size_t max_no = 0;
@@ -152,12 +154,43 @@ void fill_packet_with_stupid_data(packet_t * packet)
 }
 
 
+float alt_meas[10];
+size_t alt_meas_cnt = 0;
+size_t alt_meas_carret = 0;
+uint32_t alt_meas_deadline = 0;
+int alt_diff_valid = 0;
+float alt_diff;
+
+void update_alt_diff(const float current_alt)
+{
+	const uint32_t now = HAL_GetTick();
+	if (now >= alt_meas_deadline)
+	{
+		alt_meas[alt_meas_carret] = current_alt;
+		alt_meas_carret = (alt_meas_carret + 1) % ARRAY_SIZE(alt_meas);
+		if (alt_meas_cnt < ARRAY_SIZE(alt_meas))
+			alt_meas_cnt++;
+
+		alt_meas_deadline = now + 1000;
+	}
+
+	if (alt_meas_cnt < ARRAY_SIZE(alt_meas))
+		return;
+
+	float alt_min = alt_meas[0];
+	float alt_max = alt_meas[0];
+	for (size_t i = 1; i < ARRAY_SIZE(alt_meas); i++)
+	{
+		if (alt_min < alt_meas[i]) alt_min = alt_meas[i];
+		if (alt_max > alt_meas[i]) alt_max = alt_meas[i];
+	}
+
+	alt_diff = alt_max - alt_min;
+	alt_diff_valid = 1;
+}
+
 void appMain()
 {
-
-	serva_rotate_ch2(90);
-
-
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
 
 	packet_t packet = {0};
@@ -305,8 +338,7 @@ void appMain()
 		STATE_IN_ROCKET_WAIT = 3,	//таймер ракеты
 		STATE_SP_OPENING = 4,	//Открытие СП	//таймер СП
 		STATE_DROP = 5,	//Спуск
-		STATE_DROP_WAIT = 6,	//таймер спуска
-		STATE_GROUND = 7	//Земля
+		STATE_GROUND = 6	//Земля
 	}state_name_t;
 
 	state_name_t state = STATE_PRESTART;
@@ -316,8 +348,10 @@ void appMain()
 	float photores_data[6];
 
 
+
 	while(1)
 	{
+
 		int16_t shunt_count = ina226_get_shunt_voltage_reg(&ina);
 		double shuntV = shunt_count * 2.5e-6;
 		double shuntCurrent = (shuntV / 0.1) * 1e6;
@@ -327,6 +361,8 @@ void appMain()
 		bme280_get_sensor_data(BME280_PRESS | BME280_TEMP, &bmp280_data, &bmp280);
 		packet.pressure = bmp280_data.pressure;
 		packet.temperature = bmp280_data.temperature * 100;
+		float bmp_altitude = 44330 * (1 - (pow((bmp280_data.pressure / 101325), 1 / 5.255)));
+
 
 		lsm6ds3_acceleration_raw_get(&lsm6ds3, buf_lsm_xl);
 		lsm6ds3_angular_rate_raw_get(&lsm6ds3, buf_lsm_gy);
@@ -334,7 +370,7 @@ void appMain()
 		for(int i = 0; i < 3; i++)
 		{
 			packet.acc[i] = buf_lsm_xl[i];
-			packet.gyro[i] =buf_lsm_gy[i];
+			packet.gyro[i] = buf_lsm_gy[i];
 
 		}
 		lis2mdl_magnetic_raw_get(&lis2mdl, buf_lis);
@@ -365,6 +401,7 @@ void appMain()
 			packet.termometr = res * 10;
 		}
 
+
 		switch(state)
 		{
 			case STATE_PRESTART:
@@ -378,7 +415,7 @@ void appMain()
 				break;
 
 			case STATE_PRESTART_WAIT:
-				if (HAL_GetTick() > (state_timer + 15000))
+				if (HAL_GetTick() > (state_timer + 2000))
 				{
 					illumination_data_in_rocket = photores_read_data(3);
 					state = STATE_IN_ROCKET;
@@ -396,18 +433,18 @@ void appMain()
 				break;
 
 			case STATE_IN_ROCKET_WAIT:
-				if (HAL_GetTick() > (state_timer + 5000))
+				if (HAL_GetTick() > (state_timer + 1000))
 				{
-					HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);	//Включение пережигателя
+					//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);	//Включение пережигателя
 					state_timer = HAL_GetTick();
 					state = STATE_SP_OPENING;
 				}
 				break;
 
 			case STATE_SP_OPENING:
-				if(HAL_GetTick() > (state_timer + 1000))
+				if(HAL_GetTick() > (state_timer + 5000))
 				{
-					HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
+					HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
 					state = STATE_DROP;
 				}
 				break;
@@ -424,11 +461,24 @@ void appMain()
 
 				float sun_angle = sun(photores_data);
 				packet.sun_angle = sun_angle;
-				serva_rotate_ch2(sun_angle);
-				//основная часть с наведением
-				break;
-			case STATE_DROP_WAIT:
+				serva_rotate_ch2(sun_angle /*- 65*/);
+				serva_rotate_ch4(180 - sun_angle);
 
+				//serva_rotate_ch2(0);
+				//serva_rotate_ch4(0);
+
+				//serva_rotate_ch2(30);
+				//serva_rotate_ch4(30);
+
+				//serva_rotate_ch2(120);
+				//serva_rotate_ch4(120);
+
+				update_alt_diff(bmp_altitude);
+
+				/*if((alt_diff_valid == 1) && (alt_diff < 5))
+				{
+					state = STATE_GROUND;
+				}*/
 
 				break;
 

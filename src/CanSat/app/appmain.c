@@ -233,10 +233,19 @@ void appMain()
 	lsm_data.addr = 0x6A << 1;
 	lsm_data.hi2c1 = &hi2c1;
 
+	lsm_data_t lsm_data2;
+	lsm_data2.addr = 0x6B << 1;
+	lsm_data2.hi2c1 = &hi2c1;
+
 	stmdev_ctx_t lsm6ds3;
 	lsm6ds3.handle = &lsm_data;
 	lsm6ds3.read_reg = lsm_read_reg;
 	lsm6ds3.write_reg = lsm_write_reg;
+
+	stmdev_ctx_t lsm6ds3x2;
+	lsm6ds3x2.handle = &lsm_data2;
+	lsm6ds3x2.read_reg = lsm_read_reg;
+	lsm6ds3x2.write_reg = lsm_write_reg;
 
 	lsm6ds3_reset_set(&lsm6ds3, 1);
 	lsm6ds3_xl_full_scale_set(&lsm6ds3, LSM6DS3_16g);
@@ -244,8 +253,17 @@ void appMain()
 	lsm6ds3_gy_full_scale_set(&lsm6ds3, LSM6DS3_2000dps);
 	lsm6ds3_gy_data_rate_set(&lsm6ds3, LSM6DS3_GY_ODR_208Hz);
 
+	lsm6ds3_reset_set(&lsm6ds3x2, 1);
+	lsm6ds3_xl_full_scale_set(&lsm6ds3x2, LSM6DS3_16g);
+	lsm6ds3_xl_data_rate_set(&lsm6ds3x2, LSM6DS3_XL_ODR_104Hz);
+	lsm6ds3_gy_full_scale_set(&lsm6ds3x2, LSM6DS3_2000dps);
+	lsm6ds3_gy_data_rate_set(&lsm6ds3x2, LSM6DS3_GY_ODR_208Hz);
+
 	int16_t buf_lsm_gy[3] = {0};
 	int16_t buf_lsm_xl[3] = {0};
+
+	int16_t buf_lsm_gy2[3] = {0};
+	int16_t buf_lsm_xl2[3] = {0};
 
 	lis2mdl_data_t lis_data;
 	lis_data.addr = 0x1E << 1;
@@ -285,34 +303,8 @@ void appMain()
 	lora_mode_switch(&lora, LORA_MODE_TM);
 	HAL_Delay(100);
 
-
 	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
 	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
-
-	/*int value = 0;
-
-	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 500);
-	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 2500);*/
-	/*while (1)
-	{
-		serva_rotate_ch2(0);
-		serva_rotate_ch4(180);
-		HAL_Delay(1000);
-		serva_rotate_ch2(90);
-		serva_rotate_ch4(90);
-		HAL_Delay(1000);
-		serva_rotate_ch2(180);
-		serva_rotate_ch4(0);
-		HAL_Delay(1000);
-		serva_rotate_ch2(90);
-		serva_rotate_ch4(90);
-		HAL_Delay(1000);
-	}*/
-
-
-
-
-
 
 	int16_t buf_lis[3] = {0};
 
@@ -367,12 +359,23 @@ void appMain()
 		lsm6ds3_acceleration_raw_get(&lsm6ds3, buf_lsm_xl);
 		lsm6ds3_angular_rate_raw_get(&lsm6ds3, buf_lsm_gy);
 
+		lsm6ds3_acceleration_raw_get(&lsm6ds3x2, buf_lsm_xl2);
+		lsm6ds3_angular_rate_raw_get(&lsm6ds3x2, buf_lsm_gy2);
+
 		for(int i = 0; i < 3; i++)
 		{
 			packet.acc[i] = buf_lsm_xl[i];
 			packet.gyro[i] = buf_lsm_gy[i];
 
 		}
+
+		for(int i = 0; i < 3; i++)
+		{
+			packet.acc2[i] = buf_lsm_xl2[i];
+			packet.gyro2[i] = buf_lsm_gy2[i];
+
+		}
+
 		lis2mdl_magnetic_raw_get(&lis2mdl, buf_lis);
 		for(int i = 0; i < 3; i++)
 		{
@@ -405,7 +408,7 @@ void appMain()
 		switch(state)
 		{
 			case STATE_PRESTART:
-				if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4) == GPIO_PIN_SET)
+				if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_2) == GPIO_PIN_SET)
 				{
 					//HAL_Delay(15000);
 					illumination_data_prestart = photores_read_data(3);
@@ -435,7 +438,7 @@ void appMain()
 			case STATE_IN_ROCKET_WAIT:
 				if (HAL_GetTick() > (state_timer + 1000))
 				{
-					//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);	//Включение пережигателя
+					HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
 					state_timer = HAL_GetTick();
 					state = STATE_SP_OPENING;
 				}
@@ -445,7 +448,7 @@ void appMain()
 				if(HAL_GetTick() > (state_timer + 5000))
 				{
 					HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
-					state = STATE_DROP;
+					state = STATE_GROUND;
 				}
 				break;
 
@@ -461,24 +464,14 @@ void appMain()
 
 				float sun_angle = sun(photores_data);
 				packet.sun_angle = sun_angle;
-				serva_rotate_ch2(sun_angle /*- 65*/);
+				serva_rotate_ch2(sun_angle);
 				serva_rotate_ch4(180 - sun_angle);
-
-				//serva_rotate_ch2(0);
-				//serva_rotate_ch4(0);
-
-				//serva_rotate_ch2(30);
-				//serva_rotate_ch4(30);
-
-				//serva_rotate_ch2(120);
-				//serva_rotate_ch4(120);
-
 				update_alt_diff(bmp_altitude);
 
-				/*if((alt_diff_valid == 1) && (alt_diff < 5))
+				if((alt_diff_valid == 1) && (alt_diff < 5))
 				{
 					state = STATE_GROUND;
-				}*/
+				}
 
 				break;
 

@@ -49,7 +49,8 @@ typedef struct
 	float gps_height;
 	uint8_t gps_fix;
 	uint16_t photores[6];
-	uint32_t shunt;
+	int16_t shunt;
+	int16_t bus;
 	uint16_t magn[3];
 	uint16_t termometr;
 	uint16_t acc2[3];
@@ -191,6 +192,7 @@ void update_alt_diff(const float current_alt)
 
 void appMain()
 {
+	dwt_delay_init();
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
 
 	packet_t packet = {0};
@@ -201,7 +203,7 @@ void appMain()
 	__HAL_UART_ENABLE_IT(&huart1, UART_IT_ERR);
 	neo6mv2_Init();
 
-	struct bme280_dev bmp280;
+	struct bme280_dev bmp280 = {0};
 	bmp280.intf = BME280_I2C_INTF;
 	bmp280.read = bmp280_read_reg;
 	bmp280.delay_us = bmp280_delay_us;
@@ -218,16 +220,15 @@ void appMain()
 	bmp280.intf_ptr = &bmp_bus;
 
 
-	ds18b20_init(DS18B20_12_BIT);
-	uint32_t ds18b20_timer = HAL_GetTick();
-	ds18b20_conv();
-
-
 	bme280_init(&bmp280);
 	bme280_set_sensor_settings(BME280_ALL_SETTINGS_SEL, &bmp280);
 	bme280_set_sensor_mode(BME280_NORMAL_MODE, &bmp280);
 
 	struct bme280_data bmp280_data;
+
+	ds18b20_init(DS18B20_12_BIT);
+	uint32_t ds18b20_timer = HAL_GetTick();
+	ds18b20_conv();
 
 	lsm_data_t lsm_data;
 	lsm_data.addr = 0x6A << 1;
@@ -339,16 +340,27 @@ void appMain()
 	float illumination_data_in_rocket;
 	float photores_data[6];
 
+	uint16_t ina_data = 0;
 
+	uint64_t time = HAL_GetTick();
+	uint64_t dt = HAL_GetTick() - time;
 
 	while(1)
 	{
+		uint64_t dt = HAL_GetTick() - time;
+		uint64_t time = HAL_GetTick();
+
+		ina226_read_reg(0xFF, &ina_data, &ina);
+		ina226_read_reg(0xFE, &ina_data, &ina);
 
 		int16_t shunt_count = ina226_get_shunt_voltage_reg(&ina);
 		double shuntV = shunt_count * 2.5e-6;
 		double shuntCurrent = (shuntV / 0.1) * 1e6;
-		double shuntCurrent2 = 0.003872 * shuntCurrent + 0.10972;
-		packet.shunt = shuntCurrent2;
+		double bus_voltage= ina226_get_bus_voltage_reg(&ina);
+
+		packet.shunt = shuntCurrent;
+		packet.bus = bus_voltage;
+
 
 		bme280_get_sensor_data(BME280_PRESS | BME280_TEMP, &bmp280_data, &bmp280);
 		packet.pressure = bmp280_data.pressure;
@@ -359,8 +371,8 @@ void appMain()
 		lsm6ds3_acceleration_raw_get(&lsm6ds3, buf_lsm_xl);
 		lsm6ds3_angular_rate_raw_get(&lsm6ds3, buf_lsm_gy);
 
-		lsm6ds3_acceleration_raw_get(&lsm6ds3x2, buf_lsm_xl2);
-		lsm6ds3_angular_rate_raw_get(&lsm6ds3x2, buf_lsm_gy2);
+		//lsm6ds3_acceleration_raw_get(&lsm6ds3x2, buf_lsm_xl2);
+		//lsm6ds3_angular_rate_raw_get(&lsm6ds3x2, buf_lsm_gy2);
 
 		for(int i = 0; i < 3; i++)
 		{
@@ -410,7 +422,6 @@ void appMain()
 			case STATE_PRESTART:
 				if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_2) == GPIO_PIN_SET)
 				{
-					//HAL_Delay(15000);
 					illumination_data_prestart = photores_read_data(3);
 					state_timer = HAL_GetTick();
 					state = STATE_PRESTART_WAIT;
@@ -429,7 +440,6 @@ void appMain()
 				if (photores_read_data(3) > (((illumination_data_prestart - illumination_data_in_rocket) / 2)
 						+ illumination_data_in_rocket))
 				{
-					//HAL_Delay(5000);
 					state_timer = HAL_GetTick();
 					state = STATE_IN_ROCKET_WAIT;
 				}
@@ -448,7 +458,7 @@ void appMain()
 				if(HAL_GetTick() > (state_timer + 5000))
 				{
 					HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
-					state = STATE_GROUND;
+					state = STATE_DROP;
 				}
 				break;
 
@@ -468,10 +478,12 @@ void appMain()
 				serva_rotate_ch4(180 - sun_angle);
 				update_alt_diff(bmp_altitude);
 
-				if((alt_diff_valid == 1) && (alt_diff < 5))
+				/*if((alt_diff_valid == 1) && (alt_diff < 5))
 				{
+					serva_rotate_ch2(90);
+					serva_rotate_ch4(90);
 					state = STATE_GROUND;
-				}
+				}*/
 
 				break;
 

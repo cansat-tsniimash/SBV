@@ -25,6 +25,7 @@ void ina226_write_reg(uint8_t reg_addr, uint16_t reg_data, ina226_bus_t *ina)
 				}
 				return hal_res;
 			}
+	return HAL_OK;
 }
 
 HAL_StatusTypeDef ina226_read_reg(uint8_t reg_addr, uint16_t *data, ina226_bus_t *ina)
@@ -49,6 +50,9 @@ HAL_StatusTypeDef ina226_read_reg(uint8_t reg_addr, uint16_t *data, ina226_bus_t
 			}
 			return hal_res;
 		}
+
+	*data = ((*data) << 8) | ((*data) >> 8);
+	return HAL_OK;
 }
 
 void ina226_set_configuration_reg(ina226_bus_t *ina, ina226_avg_t avg, ina226_vbusct_t vbusct, ina226_vshct_t vshct, ina226_operatig_mode_t opm)

@@ -49,8 +49,10 @@ typedef struct
 	float gps_height;
 	uint8_t gps_fix;
 	uint16_t photores[6];
-	int16_t shunt;
 	int16_t bus;
+	int16_t shunt;
+	//int16_t bus2;
+	//int16_t shunt2;
 	uint16_t magn[3];
 	uint16_t termometr;
 	uint16_t acc2[3];
@@ -192,7 +194,7 @@ void update_alt_diff(const float current_alt)
 
 void appMain()
 {
-	dwt_delay_init();
+
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
 
 	packet_t packet = {0};
@@ -319,8 +321,13 @@ void appMain()
 	ina226_bus_t ina;
 	ina.addr = 0x40 << 1;
 	ina.hi2c2 = &hi2c1;
-
 	ina226_set_configuration_reg(&ina, INA_AVG_256, VBUSCT_1p1MS, VSHCT_1p1MS, OP_MODE_SHUNTnBUS);
+
+	/*ina226_bus_t ina2;
+	ina.addr = 0x41 << 1;
+	ina.hi2c2 = &hi2c1;
+	ina226_set_configuration_reg(&ina2, INA_AVG_256, VBUSCT_1p1MS, VSHCT_1p1MS, OP_MODE_SHUNTnBUS);
+*/
 
 
 	typedef enum state_name
@@ -342,24 +349,39 @@ void appMain()
 
 	uint16_t ina_data = 0;
 
-	uint64_t time = HAL_GetTick();
-	uint64_t dt = HAL_GetTick() - time;
+	volatile uint64_t time = HAL_GetTick();
+	volatile uint64_t dt = HAL_GetTick() - time;
+
+	/*while(1)
+	{
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_8);
+		HAL_Delay(100);
+	}*/
 
 	while(1)
 	{
-		uint64_t dt = HAL_GetTick() - time;
-		uint64_t time = HAL_GetTick();
+		dt = HAL_GetTick() - time;
+		time = HAL_GetTick();
 
-		ina226_read_reg(0xFF, &ina_data, &ina);
-		ina226_read_reg(0xFE, &ina_data, &ina);
+		//ina226_read_reg(0xFF, &ina_data, &ina);
+		//ina226_read_reg(0xFE, &ina_data, &ina);
 
 		int16_t shunt_count = ina226_get_shunt_voltage_reg(&ina);
 		double shuntV = shunt_count * 2.5e-6;
 		double shuntCurrent = (shuntV / 0.1) * 1e6;
-		double bus_voltage= ina226_get_bus_voltage_reg(&ina);
-
+		double bus_voltage = ina226_get_bus_voltage_reg(&ina) * 1.25;
 		packet.shunt = shuntCurrent;
 		packet.bus = bus_voltage;
+
+		/*int16_t shunt_count2 = ina226_get_shunt_voltage_reg(&ina2);
+		double shuntV2 = shunt_count2 * 2.5e-6;
+		double shuntCurrent2 = (shuntV2 / 0.1) * 1e6;
+		double bus_voltage2 = ina226_get_bus_voltage_reg(&ina2) * 1.25;
+		packet.shunt2 = shuntCurrent2;
+		packet.bus2 = bus_voltage2;*/
+
+
+
 
 
 		bme280_get_sensor_data(BME280_PRESS | BME280_TEMP, &bmp280_data, &bmp280);
@@ -416,6 +438,14 @@ void appMain()
 			packet.termometr = res * 10;
 		}
 
+		for(int i = 0; i < 6; i++)
+		{
+			uint8_t photores_num = 0;
+			photores_num++;
+			photores_data[i] = photores_read_data(i);
+			packet.photores[i] = photores_data[i] * 1000;
+		}
+
 
 		switch(state)
 		{
@@ -463,14 +493,6 @@ void appMain()
 				break;
 
 			case STATE_DROP:
-				for(int i = 0; i < 6; i++)
-				{
-					uint8_t photores_num = 0;
-					photores_num++;
-					photores_data[i] = photores_read_data(i);
-					packet.photores[i] = photores_read_data(i);
-				}
-
 
 				float sun_angle = sun(photores_data);
 				packet.sun_angle = sun_angle;

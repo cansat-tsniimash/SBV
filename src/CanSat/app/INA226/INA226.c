@@ -18,13 +18,13 @@ void ina226_write_reg(uint8_t reg_addr, uint16_t reg_data, ina226_bus_t *ina)
 
 	HAL_StatusTypeDef hal_res = HAL_I2C_Master_Transmit(ina->hi2c2, ina->addr, buf, 3, 100);
 	if(hal_res != HAL_OK)
-			{
-				if (hal_res == HAL_BUSY)
-				{
-					I2C_ClearBusyFlagErratum(ina->hi2c2, 100);
-				}
-				return hal_res;
-			}
+	{
+		if (hal_res == HAL_BUSY)
+		{
+			I2C_ClearBusyFlagErratum(ina->hi2c2, 100);
+		}
+		return hal_res;
+	}
 	return HAL_OK;
 }
 
@@ -82,7 +82,6 @@ int16_t ina226_get_bus_voltage_reg(ina226_bus_t *ina)
 {
 	uint16_t data = 0;
 	ina226_read_reg(0x02, &data, ina);
-	data = data * 1.25;
 	return data;
 }
 

@@ -51,21 +51,17 @@ typedef struct
 	uint16_t photores[6];
 	int16_t bus;
 	int16_t shunt;
-	//int16_t bus2;
-	//int16_t shunt2;
+	int16_t bus2;
+	int16_t shunt2;
 	uint16_t magn[3];
 	uint16_t termometr;
 	uint16_t acc2[3];
 	uint16_t gyro2[3];
 	float sun_angle;
 	uint8_t sum2;
-
-
 }packet_t;
 
 #pragma pack(pop)
-
-
 
 
 float sun(float *photores_data)
@@ -319,16 +315,14 @@ void appMain()
 	UINT byte_count;
 
 	ina226_bus_t ina;
-	ina.addr = 0x40 << 1;
+	ina.addr = 0x41 << 1;
 	ina.hi2c2 = &hi2c1;
 	ina226_set_configuration_reg(&ina, INA_AVG_256, VBUSCT_1p1MS, VSHCT_1p1MS, OP_MODE_SHUNTnBUS);
 
-	/*ina226_bus_t ina2;
-	ina.addr = 0x41 << 1;
-	ina.hi2c2 = &hi2c1;
+	ina226_bus_t ina2;
+	ina2.addr = 0x44 << 1;
+	ina2.hi2c2 = &hi2c1;
 	ina226_set_configuration_reg(&ina2, INA_AVG_256, VBUSCT_1p1MS, VSHCT_1p1MS, OP_MODE_SHUNTnBUS);
-*/
-
 
 	typedef enum state_name
 	{
@@ -373,16 +367,12 @@ void appMain()
 		packet.shunt = shuntCurrent;
 		packet.bus = bus_voltage;
 
-		/*int16_t shunt_count2 = ina226_get_shunt_voltage_reg(&ina2);
+		int16_t shunt_count2 = ina226_get_shunt_voltage_reg(&ina2);
 		double shuntV2 = shunt_count2 * 2.5e-6;
 		double shuntCurrent2 = (shuntV2 / 0.1) * 1e6;
 		double bus_voltage2 = ina226_get_bus_voltage_reg(&ina2) * 1.25;
 		packet.shunt2 = shuntCurrent2;
-		packet.bus2 = bus_voltage2;*/
-
-
-
-
+		packet.bus2 = bus_voltage2;
 
 		bme280_get_sensor_data(BME280_PRESS | BME280_TEMP, &bmp280_data, &bmp280);
 		packet.pressure = bmp280_data.pressure;

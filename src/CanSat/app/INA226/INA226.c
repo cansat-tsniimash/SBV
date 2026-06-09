@@ -9,7 +9,7 @@
 #include "INA226.h"
 #include "i2c-crutch.h"
 
-void ina226_write_reg(uint8_t reg_addr, uint16_t reg_data, ina226_bus_t *ina)
+HAL_StatusTypeDef ina226_write_reg(uint8_t reg_addr, uint16_t reg_data, ina226_bus_t *ina)
 {
 	uint8_t buf[3] = {0};
 	buf[0] = reg_addr;

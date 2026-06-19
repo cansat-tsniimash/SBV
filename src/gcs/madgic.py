@@ -124,3 +124,25 @@ class Parser: # подклас библеотеки
 
         self.lef = data
         return rv # возвращаем масив с пакетами
+
+headers_std = ("Tim ID", "   time", " temp", "     P", "   a[x]", "  a[y]", "  a[z]", " w[x]", " w[y]", " w[z]",)
+headers_our = (
+    "  num", "st", "   lat", "   lon", "     h", "  fx",
+    "  ph[0]", "  ph[1]", "  ph[2]", "  ph[3]", "  ph[4]", "  ph[5]",
+    " bus1", "shunt1", " bus2", "shunt2",
+    " mag[x]", " mag[y]", " mag[z]", " temp", "  a2[x]", "  a2[y]", "  a2[z]", " w2[x]", " w2[y]", " w2[z]", "y_p"
+)
+
+def print_aligned(headers, values):
+#    print(*headers)
+    for no, header in enumerate(headers):
+        value = values[no]
+        if isinstance(value, float):
+            value = "%.2f" % value
+        else:
+            value = str(value)
+
+        value = " " * (len(header) - len(value)) + value
+        print(value, end=" ")
+
+    print()

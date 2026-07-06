@@ -5,7 +5,7 @@ from madgic import convert_std, convert_our, headers_std, headers_our, print_ali
 p = madgic.Parser()
 #ввожу переменые для названий заголовков столбов
 print(" ".join(headers_std + headers_our))
-with open("telem2026-06-19T18-37-24.319118.bin", mode="rb") as stream, open("chtoto2.csv", mode="w") as g : # записывает чтото там
+with open("SDPack.bin", mode="rb") as stream, open("chtoto2.csv", mode="w") as g : # записывает чтото там
     g.write(";".join(x.strip() for x in headers_std + headers_our) + "\n")
     while True:
         data = stream.read(4096)

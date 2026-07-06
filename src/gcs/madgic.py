@@ -78,12 +78,15 @@ def convert_our(values):
         lsm6ds3_from_fs16g_to_mg(values[24]) / 1000,
         lsm6ds3_from_fs16g_to_mg(values[25]) / 1000,
         values[26],
+        values[27],
+        values[28],
+        values[29]
     )
 # функцией превращаем попугаев в нужные еденицы измерения части
 
 class Parser: # подклас библеотеки
     STRUCT_STD = struct.Struct("<HHIhI3h3hB")
-    STRUCT_OUR = struct.Struct("<HB3fB6H2h2h10hfB")
+    STRUCT_OUR = struct.Struct("<HB3fB6H2h2h10hffBB")
 
     def __init__(self):
         self.lef = bytes()
@@ -130,7 +133,7 @@ headers_our = (
     "  num", "st", "   lat", "   lon", "     h", "  fx",
     "  ph[0]", "  ph[1]", "  ph[2]", "  ph[3]", "  ph[4]", "  ph[5]",
     " bus1", "shunt1", " bus2", "shunt2",
-    " mag[x]", " mag[y]", " mag[z]", " temp", "  a2[x]", "  a2[y]", "  a2[z]", " w2[x]", " w2[y]", " w2[z]", "y_p"
+    " mag[x]", " mag[y]", " mag[z]", " temp", "  a2[x]", "  a2[y]", "  a2[z]", " w2[x]", " w2[y]", " w2[z]", "y_p", "h", " trans", " cooci"
 )
 
 def print_aligned(headers, values):
